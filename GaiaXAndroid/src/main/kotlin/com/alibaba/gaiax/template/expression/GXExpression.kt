@@ -670,7 +670,7 @@ sealed class GXExpression : GXIExpression {
     data class GXTernaryValue1(
         val condition: GXExpression?,
         val trueBranch: GXExpression?,
-        val falseBranch: GXExpression?,
+        val falseBranch: GXExpression?
     ) : GXExpression() {
 
         override fun value(rawJson: JSON?): Any? {
@@ -780,7 +780,7 @@ sealed class GXExpression : GXIExpression {
      */
     data class GXTernaryValue2(
         val conditionAndTrueBranch: GXExpression?,
-        val falseBranch: GXExpression?,
+        val falseBranch: GXExpression?
     ) : GXExpression() {
 
         override fun value(rawJson: JSON?): Any? {
@@ -859,7 +859,7 @@ sealed class GXExpression : GXIExpression {
     data class GXTernaryValue3(
         val value: GXExpression?,
         val trueBranch: GXExpression?,
-        val falseBranch: GXExpression?,
+        val falseBranch: GXExpression?
 
         ) : GXExpression() {
 

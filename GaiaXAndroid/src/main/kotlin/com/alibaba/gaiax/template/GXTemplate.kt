@@ -26,7 +26,7 @@ class GXTemplate(
     val layer: String,
     val css: String,
     val dataBind: String,
-    val js: String,
+    val js: String
 ) {
 
     override fun equals(other: Any?): Boolean {

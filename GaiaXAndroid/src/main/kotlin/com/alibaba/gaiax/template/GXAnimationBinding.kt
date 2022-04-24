@@ -65,7 +65,7 @@ class GXAnimationBinding(
     // 动画是否正在被触发，与trigger配合使用，需要业务方传值
     val state: GXIExpression? = null,
     // 动画数据
-    val animation: GXIAnimation,
+    val animation: GXIAnimation
 ) {
 
     fun executeAnimation(context: GXTemplateContext, child: GXNode, templateData: JSONObject) {

@@ -65,7 +65,7 @@ class GXAssetsBinaryTemplate(val context: Context) : GXITemplateSource {
         return GXTemplate(templateId, templateBiz, -1, layer, css, dataBind, js)
     }
 
-    private fun getFromCache(templateBiz: String, templateId: String) = templateCache[templateBiz]?.filter { it.id == templateId }?.maxByOrNull { it.version }
+    private fun getFromCache(templateBiz: String, templateId: String) = templateCache[templateBiz]?.filter { it.id == templateId }?.maxBy { it.version }
 
     private fun addToCache(template: GXTemplate) {
         var bizTemplates = templateCache[template.biz]

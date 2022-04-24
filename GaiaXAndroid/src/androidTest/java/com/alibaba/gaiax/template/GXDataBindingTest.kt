@@ -27,8 +27,8 @@ class GXDataBindingTest {
     @Test
     fun createMergeValueBinding_value() {
 
-        val valueBinding1 = GXDataBinding.create(value = "\${data.title}", null, null, null, null)
-        val valueBinding2 = GXDataBinding.create(value = "\${data.subtitle}", null, null, null, null)
+        val valueBinding1 = GXDataBinding.create(value = "\${data.title}")
+        val valueBinding2 = GXDataBinding.create(value = "\${data.subtitle}")
 
         val valueBinding3 = GXDataBinding.createMergeDataBinding(valueBinding1, valueBinding2)
 
@@ -42,8 +42,8 @@ class GXDataBindingTest {
     @Test
     fun createMergeValueBinding_placeholder() {
 
-        val valueBinding1 = GXDataBinding.create(null, placeholder = "'res:uri'", null, null, null)
-        val valueBinding2 = GXDataBinding.create(null, placeholder = "'res:url'", null, null, null)
+        val valueBinding1 = GXDataBinding.create(null, placeholder = "'res:uri'")
+        val valueBinding2 = GXDataBinding.create(null, placeholder = "'res:url'")
 
         val valueBinding3 = GXDataBinding.createMergeDataBinding(valueBinding1, valueBinding2)
 

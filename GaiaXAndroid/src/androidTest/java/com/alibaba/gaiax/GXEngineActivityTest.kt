@@ -17,8 +17,8 @@
 package com.alibaba.gaiax
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.LinearLayoutCompat
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutCompat
 import com.alibaba.gaiax.test.R
 
 class GXEngineActivityTest : AppCompatActivity() {

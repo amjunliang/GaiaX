@@ -18,7 +18,7 @@ package com.alibaba.gaiax.render.view.container
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import android.support.v7.widget.RecyclerView
 import com.alibaba.fastjson.JSONArray
 import com.alibaba.fastjson.JSONObject
 import com.alibaba.gaiax.GXTemplateEngine
@@ -59,7 +59,7 @@ class GXContainerViewAdapter(val gxTemplateContext: GXTemplateContext, val gxNod
     }
 
     override fun onBindViewHolder(holder: GXViewHolder, position: Int) {
-        val itemData = containerData.getJSONObject(holder.bindingAdapterPosition) ?: JSONObject()
+        val itemData = containerData.getJSONObject(holder.adapterPosition) ?: JSONObject()
         val templateData = GXTemplateEngine.GXTemplateData(itemData)
         GXTemplateEngine.instance.bindData(holder.itemView, templateData)
     }

@@ -22,7 +22,7 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.AbsoluteLayout
-import androidx.annotation.Keep
+import android.support.annotation.Keep
 import com.alibaba.gaiax.R
 import com.alibaba.gaiax.template.GXStyle
 import com.alibaba.gaiax.render.view.basic.boxshadow.GXBlurMaskBitmapShadowDrawable
@@ -202,7 +202,7 @@ open class GXShadowLayout @JvmOverloads constructor(context: Context, attrs: Att
         topLeft: Float,
         topRight: Float,
         bottomLeft: Float,
-        bottomRight: Float,
+        bottomRight: Float
     ) {
         this.topLeftBoxRadius = topLeft.absoluteValue
         this.topRightBoxRadius = topRight.absoluteValue

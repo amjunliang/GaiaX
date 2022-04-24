@@ -17,15 +17,15 @@
 package com.alibaba.gaiax.utils
 
 import android.content.Context
-import androidx.test.platform.app.InstrumentationRegistry
+import android.support.test.InstrumentationRegistry
 import app.visly.stretch.Size
 import com.alibaba.fastjson.JSONObject
 import com.alibaba.gaiax.render.node.GXStretchNode
+import com.alibaba.gaiax.render.view.GXViewKey
 import com.alibaba.gaiax.template.GXCss
 import com.alibaba.gaiax.template.GXDataBinding
 import com.alibaba.gaiax.template.GXLayer
 import com.alibaba.gaiax.template.GXTemplateKey
-import com.alibaba.gaiax.render.view.GXViewKey
 
 object GXMockUtils {
 

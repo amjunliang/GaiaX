@@ -17,7 +17,7 @@
 package com.alibaba.gaiax.template
 
 import android.graphics.Rect
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import com.alibaba.fastjson.JSONObject
 
 /**
@@ -26,7 +26,7 @@ import com.alibaba.fastjson.JSONObject
 data class GXScrollConfig(
     val direction: Int = LinearLayoutManager.VERTICAL,
     val itemSpacing: Int = 0,
-    val edgeInsets: Rect = Rect(0, 0, 0, 0),
+    val edgeInsets: Rect = Rect(0, 0, 0, 0)
 ) {
     companion object {
 

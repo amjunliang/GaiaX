@@ -306,7 +306,7 @@ class GXTemplateEngine {
         /**
          * Template data, used to bind data to the view
          */
-        val data: JSONObject,
+        val data: JSONObject
     ) {
 
         /**
@@ -341,7 +341,7 @@ class GXTemplateEngine {
         /**
          * Template id
          */
-        val templateId: String,
+        val templateId: String
     ) {
 
         /**

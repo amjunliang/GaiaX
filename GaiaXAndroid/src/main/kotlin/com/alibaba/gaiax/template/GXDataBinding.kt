@@ -29,7 +29,7 @@ class GXDataBinding(
     val accessibilityDesc: GXIExpression? = null,
     val accessibilityEnable: GXIExpression? = null,
     val placeholder: GXIExpression? = null,
-    val extend: MutableMap<String, GXIExpression>? = null,
+    val extend: MutableMap<String, GXIExpression>? = null
 ) {
 
     fun reset() {
@@ -148,7 +148,7 @@ class GXDataBinding(
                     placeholder = placeholder,
                     accessibilityDesc = accessibilityDesc,
                     accessibilityEnable = accessibilityEnable,
-                    extend = extend,
+                    extend = extend
                 )
             } else {
                 null

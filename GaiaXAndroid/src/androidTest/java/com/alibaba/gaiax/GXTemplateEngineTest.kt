@@ -19,12 +19,12 @@ package com.alibaba.gaiax
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
+import android.support.test.InstrumentationRegistry
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.test.platform.app.InstrumentationRegistry
 import com.alibaba.fastjson.JSONArray
 import com.alibaba.fastjson.JSONObject
 import com.alibaba.gaiax.context.GXTemplateContext

@@ -1,6 +1,6 @@
 package app.visly.stretch
 
-import androidx.annotation.Keep
+import android.support.annotation.Keep
 
 /**
  * @suppress
@@ -180,7 +180,7 @@ data class Style(
     var size: Size<Dimension> = Size(Dimension.Auto, Dimension.Auto),
     var minSize: Size<Dimension> = Size(Dimension.Auto, Dimension.Auto),
     var maxSize: Size<Dimension> = Size(Dimension.Auto, Dimension.Auto),
-    var aspectRatio: Float? = null,
+    var aspectRatio: Float? = null
 ) {
 
     companion object {
@@ -348,7 +348,7 @@ data class Style(
         maxHeightType: Int,
         maxHeightValue: Float,
 
-        aspectRatio: Float,
+        aspectRatio: Float
     ): Long
 
     override fun toString(): String {

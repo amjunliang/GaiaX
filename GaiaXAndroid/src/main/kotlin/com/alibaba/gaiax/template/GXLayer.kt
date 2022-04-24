@@ -63,7 +63,7 @@ data class GXLayer constructor(
     /**
      * 子节点
      */
-    val layers: MutableList<GXLayer> = mutableListOf(),
+    val layers: MutableList<GXLayer> = mutableListOf()
 ) {
 
     companion object {

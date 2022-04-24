@@ -17,7 +17,7 @@
 package com.alibaba.gaiax.template
 
 import android.graphics.Rect
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import com.alibaba.fastjson.JSONObject
 
 /**
@@ -38,7 +38,7 @@ data class GXGridConfig(
     /**
      * scrollable
      */
-    val scrollEnable: Boolean = false,
+    val scrollEnable: Boolean = false
 ) {
 
 
@@ -78,7 +78,7 @@ data class GXGridConfig(
                 if (itemSpacing != null) GXContainerConvert.spacing(itemSpacing) else srcConfig.itemSpacing,
                 if (rowSpacing != null) GXContainerConvert.spacing(rowSpacing) else srcConfig.rowSpacing,
                 if (edgeInsets != null) GXContainerConvert.edgeInsets(edgeInsets) ?: srcConfig.edgeInsets else srcConfig.edgeInsets,
-                scrollEnable ?: srcConfig.scrollEnable,
+                scrollEnable ?: srcConfig.scrollEnable
             )
         }
     }

@@ -36,7 +36,7 @@ data class GXTemplateInfo(
     val event: MutableMap<String, GXEventBinding>? = null,
     val animation: MutableMap<String, GXAnimationBinding>? = null,
     val config: MutableMap<String, GXIExpression>? = null,
-    val js: String? = null,
+    val js: String? = null
 ) {
 
     var children: MutableList<GXTemplateInfo>? = null

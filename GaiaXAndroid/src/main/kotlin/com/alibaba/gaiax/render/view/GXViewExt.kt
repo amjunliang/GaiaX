@@ -24,9 +24,9 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import app.visly.stretch.Layout
 import com.alibaba.gaiax.render.view.basic.GXIconFont
 import com.alibaba.gaiax.render.view.basic.GXImageView
@@ -345,7 +345,7 @@ fun View.setGridContainerItemSpacingAndRowSpacing(padding: Rect, itemSpacing: In
                 outRect: Rect,
                 view: View,
                 parent: RecyclerView,
-                state: RecyclerView.State,
+                state: RecyclerView.State
             ) {
                 super.getItemOffsets(outRect, view, parent, state)
 
@@ -499,7 +499,7 @@ fun View.setVerticalScrollContainerLineSpacing(lineSpacing: Int) {
                 outRect: Rect,
                 view: View,
                 parent: RecyclerView,
-                state: RecyclerView.State,
+                state: RecyclerView.State
             ) {
                 super.getItemOffsets(outRect, view, parent, state)
                 if (parent.adapter != null) {
@@ -527,7 +527,7 @@ fun View.setHorizontalScrollContainerLineSpacing(lineSpacing: Int) {
                 outRect: Rect,
                 view: View,
                 parent: RecyclerView,
-                state: RecyclerView.State,
+                state: RecyclerView.State
             ) {
                 super.getItemOffsets(outRect, view, parent, state)
                 if (parent.adapter != null) {
@@ -555,7 +555,7 @@ fun View.setHorizontalScrollContainerLineSpacing(left: Int, right: Int, lineSpac
                 outRect: Rect,
                 view: View,
                 parent: RecyclerView,
-                state: RecyclerView.State,
+                state: RecyclerView.State
             ) {
                 super.getItemOffsets(outRect, view, parent, state)
                 if (parent.adapter != null) {
