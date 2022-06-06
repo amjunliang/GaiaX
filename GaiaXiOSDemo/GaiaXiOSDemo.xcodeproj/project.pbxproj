@@ -46,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0CCAE9C5284AFA4300BB28DE /* gaiax_template */ = {isa = PBXFileReference; lastKnownFileType = text; name = gaiax_template; path = iReader/gaiax_template; sourceTree = SOURCE_ROOT; };
 		8580D0337E7D6E56B21F09AC /* Pods-GaiaXiOSDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GaiaXiOSDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GaiaXiOSDemo/Pods-GaiaXiOSDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		8D0210DB278F1FF10032958A /* GaiaXPreviewTemplateSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GaiaXPreviewTemplateSource.h; sourceTree = "<group>"; };
 		8D0210DC278F1FF10032958A /* GaiaXPreviewTemplateSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GaiaXPreviewTemplateSource.m; sourceTree = "<group>"; };
@@ -159,6 +160,7 @@
 		8D57F1CD2772F84600FF8CC3 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				0CCAE9C5284AFA4300BB28DE /* gaiax_template */,
 				8DDC0A8B27D06949008CB84C /* FunctionList.plist */,
 				8D5D29AB276AD6A1005FD699 /* uper.json */,
 				8D5D29AA276AD6A1005FD699 /* uper-top.json */,

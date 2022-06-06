@@ -60,7 +60,7 @@
 - (void)throwError:(NSString *)message{
     NSString *result = [NSString stringWithFormat:@"错误信息：%@", message];
     NSLog(@"%@", result);
-    NSAssert(false, result);
+    //NSAssert(false, result);
 }
 
 
