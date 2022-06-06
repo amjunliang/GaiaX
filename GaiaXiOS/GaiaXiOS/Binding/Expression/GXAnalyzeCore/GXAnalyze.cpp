@@ -1,5 +1,7 @@
 #include "GXAnalyze.h"
 #include <time.h>
+#include <iomanip>
+#include <sstream>
 
 using namespace std;
 static vector<vector<char> > G;              //文法G[S]产生式 ，~为空字
@@ -699,20 +701,37 @@ GXATSNode GXAnalyze::doubleCalculate(GXATSNode left, GXATSNode right, string op)
             result.token = "string";
             result.name = left.name + right.name;
         } else {
-            result.token = "error";
-            if (left.token == "num" || left.token == "string") {
-                result.name =
-                        "\'" + right.name + "\'" + ": expected " + left.token + " value,not : " +
-                        right.token;
-            } else if (right.token == "num" || right.token == "string") {
-                result.name =
-                        "\'" + left.name + "\'" + ": expected " + right.token + " value,not : " +
-                        left.token;
-            } else {
-                result.name =
-                        "\'" + left.name + "\'" + ": expected num value,not : " +
-                        left.token;
+            string leftStr = left.name;
+            if (left.token == "num") {
+                float temp = stof(left.name);
+                leftStr = to_string(temp);
             }
+            
+            string rightStr = right.name;
+            if (right.token == "num") {
+                float temp = stof(right.name);
+                std::stringstream stream;
+                stream << std::fixed << std::setprecision(0) << temp;
+                rightStr = stream.str();
+            }
+            
+            result.token = "string";
+            result.name = leftStr + rightStr;
+//
+//            result.token = "error";
+//            if (left.token == "num" || left.token == "string") {
+//                result.name =
+//                        "\'" + right.name + "\'" + ": expected " + left.token + " value,not : " +
+//                        right.token;
+//            } else if (right.token == "num" || right.token == "string") {
+//                result.name =
+//                        "\'" + left.name + "\'" + ": expected " + right.token + " value,not : " +
+//                        left.token;
+//            } else {
+//                result.name =
+//                        "\'" + left.name + "\'" + ": expected num value,not : " +
+//                        left.token;
+//            }
         }
     } else if (op == "-") {
         if (left.token == "num" && right.token == "num") {
