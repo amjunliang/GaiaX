@@ -378,6 +378,10 @@ GXATSNode scanner(int &syn, int &p, char s[], void *p_analyze) {
     }else{
         temp = GXATSNode(str1, sign, sign);
     }
-    delete []token;
+    
+    if (!token) {
+        delete []token;
+        token = NULL;
+    }
     return temp;
 }

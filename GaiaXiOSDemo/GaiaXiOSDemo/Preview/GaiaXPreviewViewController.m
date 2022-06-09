@@ -68,7 +68,7 @@
     [super viewDidLoad];
     self.title = @"GaiaX预览";
     [self.view addSubview:self.preview];
-    self.view.backgroundColor = [UIColor darkGrayColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     //设置button按钮
     [self setupRightButtonItem];
     //创建socket链接
@@ -100,7 +100,7 @@
 
 - (UIView *)preview {
     if (_preview == nil) {
-        CGRect frame = CGRectMake(0, kStatusBarHeight + 60.f, kScreenWidth, kScreenHeight- (kStatusBarHeight + 44.f));
+        CGRect frame = CGRectMake(0, kStatusBarHeight + 44.f, kScreenWidth, kScreenHeight- (kStatusBarHeight + 44.f));
         _preview = [[UIView alloc] initWithFrame:frame];
     }
     return _preview;
@@ -203,13 +203,14 @@
     //绑定数据
     [TheGXTemplateEngine bindData:_templateData onView:_rootView];
     
-//    //更新位置
-//    CGFloat tmpWidth = _rootView.frame.size.width;
-//    CGFloat x = tmpWidth > 0 ? (width - tmpWidth) / 2.f : 0;
-//    CGRect frame = _rootView.frame;
-//    frame.origin.y = 0;
-//    frame.origin.x = 0;
-//    _rootView.frame = frame;
+
+    //更新位置
+    CGRect frame = _rootView.frame;
+    frame.origin.y = 60;
+    frame.origin.x = 0;
+    _rootView.frame = frame;
+    _rootView.layer.borderColor = ([UIColor.redColor colorWithAlphaComponent:0.5]).CGColor;
+    _rootView.layer.borderWidth = 1;
 }
 
 //获取到嵌套模板

@@ -7,6 +7,9 @@
         "gx-content-uper-scroll":{
             "value": "$$"
         }
+    },
+    "event": {
+        "gx-content-uper": {
     }
-
+}
 }

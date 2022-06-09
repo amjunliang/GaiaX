@@ -61,7 +61,8 @@ typedef void (^GXTemplateLoadCompletion)(NSDictionary * _Nonnull);
 
 //Assert
 #if DEBUG == 1
-#define GXAssert(...)  NSAssert(__VA_ARGS__)
+//#define GXAssert(...)  NSAssert(__VA_ARGS__)
+#define GXAssert(...)  {}
 #else
 #define GXAssert(...)  {}
 #endif

@@ -98,12 +98,12 @@
             
         } else {
             GXLog(@"[GaiaX] 构建节点树失败：(%@/%@)模板index.json文件异常", bizId, templateId);
-//            GXAssert(isValid, @"构建节点树失败：(%@/%@)index.json文件异常", bizId, templateId);
+            GXAssert(isValid, @"构建节点树失败：(%@/%@)index.json文件异常", bizId, templateId);
         }
         
     } else {
         GXLog(@"[GaiaX] 构建节点树失败：(%@/%@)模板文件为空", bizId, templateId);
-//        GXAssert([GXUtils isValidDictionary:templateInfo], @"构建节点树失败：(%@/%@)模板文件为空", bizId, templateId);
+        GXAssert([GXUtils isValidDictionary:templateInfo], @"构建节点树失败：(%@/%@)模板文件为空", bizId, templateId);
     }
     
     //赋值ctx
