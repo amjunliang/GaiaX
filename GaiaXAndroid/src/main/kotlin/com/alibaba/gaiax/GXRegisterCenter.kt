@@ -16,6 +16,7 @@
 
 package com.alibaba.gaiax
 
+import android.content.Context
 import android.view.ViewGroup
 import com.alibaba.fastjson.JSONArray
 import com.alibaba.fastjson.JSONObject
@@ -97,7 +98,7 @@ class GXRegisterCenter {
     }
 
     interface GXIExtensionColor {
-        fun convert(value: String): Int?
+        fun convert(context: Context?, value: String): Int?
     }
 
     interface GXIExtensionSize {
