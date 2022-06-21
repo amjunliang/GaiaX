@@ -112,8 +112,6 @@ class GaiaXFastPreviewActivity : AppCompatActivity(), GaiaXFastPreview.Listener 
 
         val activity = this
 
-        GXTemplateEngine.instance.init(activity)
-
         val params = GXTemplateEngine.GXTemplateItem(activity, "fastpreview", templateId)
 
         val width = if (constraintSize.containsKey("width")) {
