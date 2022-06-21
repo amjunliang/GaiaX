@@ -2,6 +2,7 @@
     "data":{
         "cover-img":{
             "value":"$img",
+            "placeholder": "'localTopicDetailBookArrow'",
         },
         "sub-title":{
             "value":"$desc"
