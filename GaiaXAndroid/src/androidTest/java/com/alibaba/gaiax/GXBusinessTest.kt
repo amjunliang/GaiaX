@@ -4,8 +4,6 @@ import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.alibaba.fastjson.JSONObject
 import com.alibaba.gaiax.render.view.basic.GXText
-import com.alibaba.gaiax.render.view.drawable.GXLinearColorGradientDrawable
-import com.alibaba.gaiax.render.view.drawable.GXRoundCornerBorderGradientDrawable
 import com.alibaba.gaiax.render.view.setFontSize
 import com.alibaba.gaiax.template.GXIExpression
 import com.alibaba.gaiax.template.GXSize.Companion.dpToPx
@@ -32,6 +30,42 @@ class GXBusinessTest : GXBaseTest() {
 
     }
 
+    /**
+     * TODO: bad case
+     */
+    @Test
+    fun yk_vip_channel_identityarea() {
+        GXRegisterCenter.instance
+            .registerExtensionExpression(GXExtensionExpression())
+
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "business",
+            "yk-vip-channel-identityarea"
+        )
+        val rootView = GXTemplateEngine.instance.createView(
+            templateItem,
+            GXTemplateEngine.GXMeasureSize(375F.dpToPx(), null)
+        )
+        val templateData = GXTemplateEngine.GXTemplateData(JSONObject())
+        GXTemplateEngine.instance.bindData(rootView, templateData)
+
+        Assert.assertEquals(375F.dpToPx(), rootView.width())
+        Assert.assertEquals(66F.dpToPx(), rootView.height())
+
+        val avatar = GXTemplateEngine.instance.getGXViewById(rootView, "avatar")
+        Assert.assertEquals(40F.dpToPx(), avatar?.width())
+        Assert.assertEquals(40F.dpToPx(), avatar?.height())
+
+        val button = GXTemplateEngine.instance.getGXViewById(rootView, "button")
+        Assert.assertEquals(35F.dpToPx(), button?.width())
+        Assert.assertEquals(35F.dpToPx(), button?.height())
+
+        val titleView = GXTemplateEngine.instance.getGXViewById(rootView, "titleView")
+        Assert.assertEquals(375F.dpToPx() - 40F.dpToPx() - 35F.dpToPx(), titleView?.width())
+        Assert.assertEquals(66F.dpToPx(), titleView?.height())
+    }
+
     @Test
     fun yk_vip_ad_task_item() {
         GXRegisterCenter.instance
@@ -52,11 +86,6 @@ class GXBusinessTest : GXBaseTest() {
 
         Assert.assertEquals(363F.dpToPx(), rootView.width())
         Assert.assertEquals(64F.dpToPx(), rootView.height())
-        Assert.assertEquals(true, rootView.child(2).background is GXLinearColorGradientDrawable)
-        Assert.assertEquals(
-            true,
-            rootView.child(2).foreground is GXRoundCornerBorderGradientDrawable
-        )
     }
 
     @Test
@@ -98,28 +127,6 @@ class GXBusinessTest : GXBaseTest() {
         Assert.assertEquals(93F.dpToPx(), subTitle?.width())
         Assert.assertEquals(16F.dpToPx(), subTitle?.height())
     }
-
-    // yk-rec-hot-image-text-card
-//    @Test
-//    fun yk_rec_hot_image_text_card() {
-//        GXRegisterCenter.instance
-//            .registerProcessExpression(GXProcessExpression())
-//
-//        val templateItem = GXTemplateEngine.GXTemplateItem(
-//            GXMockUtils.context,
-//            "business",
-//            "yk-rec-hot-image-text-card"
-//        )
-//        val rootView = GXTemplateEngine.instance.createView(
-//            templateItem,
-//            GXTemplateEngine.GXMeasureSize(1080F, null)
-//        )
-//        val path = "business/yk-rec-hot-image-text-card.json"
-//        val templateData = GXTemplateEngine.GXTemplateData(readJsonFromAssets(path))
-//        GXTemplateEngine.instance.bindData(rootView, templateData)
-//
-//        Assert.assertEquals(1080F, rootView.width())
-//    }
 
     @Test
     fun search_component_1011() {

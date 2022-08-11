@@ -27,59 +27,42 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class GXComponentScrollTest : GXBaseTest() {
 
-//    @Test
-//    fun template_scroll_binding_scroll_index() {
-//        val templateItem = GXTemplateEngine.GXTemplateItem(
-//            GXMockUtils.context,
-//            "scroll",
-//            "template_scroll_scroll_index"
-//        )
-//
-//        val templateData = GXTemplateEngine.GXTemplateData(JSONObject().apply {
-//            this["nodes"] = JSONArray().apply {
-//                this.add(JSONObject())
-//                this.add(JSONObject())
-//                this.add(JSONObject())
-//                this.add(JSONObject())
-//                this.add(JSONObject())
-//            }
-//        })
-//        val size = GXTemplateEngine.GXMeasureSize(MOCK_SCREEN_WIDTH, null)
-//        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
-//        GXTemplateEngine.instance.bindData(rootView, templateData)
-//
-//        Assert.assertEquals(
-//            3,
-//            ((rootView as RecyclerView).layoutManager as LinearLayoutManager).getFieldInt("mPendingScrollPosition")
-//        )
-//    }
-//
-//    @Test
-//    fun template_scroll_binding_scroll_index_and_params_position() {
-//        val templateItem = GXTemplateEngine.GXTemplateItem(
-//            GXMockUtils.context,
-//            "scroll",
-//            "template_scroll_scroll_index"
-//        )
-//
-//        val templateData = GXTemplateEngine.GXTemplateData(JSONObject().apply {
-//            this["nodes"] = JSONArray().apply {
-//                this.add(JSONObject())
-//                this.add(JSONObject())
-//                this.add(JSONObject())
-//                this.add(JSONObject())
-//                this.add(JSONObject())
-//            }
-//        })
-//        val size = GXTemplateEngine.GXMeasureSize(MOCK_SCREEN_WIDTH, null)
-//        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
-//        GXTemplateEngine.instance.bindData(rootView, templateData)
-//
-//        Assert.assertEquals(
-//            3,
-//            ((rootView as RecyclerView).layoutManager as LinearLayoutManager).getFieldInt("mPendingScrollPosition")
-//        )
-//    }
+    @Test
+    fun template_scroll_different_item_width() {
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "scroll",
+            "template_scroll_different_item_width"
+        )
+        val data = JSONObject.parseObject(
+            "{\n" +
+                    "  \"nodes\":[\n" +
+                    "    {\n" +
+                    "      \"left\":\"15px\"\n" +
+                    "    },{\n" +
+                    "      \"left\": \"12px\"\n" +
+                    "    },{\n" +
+                    "      \"left\": \"12px\"\n" +
+                    "    },{\n" +
+                    "      \"left\": \"12px\"\n" +
+                    "    },{\n" +
+                    "      \"left\": \"12px\"\n" +
+                    "    },{\"left\": \"12px\"\n" +
+                    "    }\n" +
+                    "  ]\n" +
+                    "}"
+        )
+        val templateData = GXTemplateEngine.GXTemplateData(data)
+        val size = GXTemplateEngine.GXMeasureSize(375F.dpToPx(), null)
+        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
+        GXTemplateEngine.instance.bindData(rootView, templateData)
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(100F.dpToPx() + 15F.dpToPx(), rootView.child(0).child(0).width())
+
+        Assert.assertEquals(100F.dpToPx() + 12F.dpToPx(), rootView.child(1).child(0).width())
+    }
 
     @Test
     fun template_container_item_bind() {
@@ -265,7 +248,7 @@ class GXComponentScrollTest : GXBaseTest() {
             GXScreenUtils.getScreenWidthPx(GXMockUtils.context) / 2.5F,
             rootView.child(0).width()
         )
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
     }
 
     @Test
@@ -812,13 +795,13 @@ class GXComponentScrollTest : GXBaseTest() {
         Assert.assertEquals(1080F.dpToPx(), rootView.width())
         Assert.assertEquals(100F.dpToPx(), rootView.height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
         Assert.assertEquals(0F, rootView.child(0).x)
         Assert.assertEquals(0F, rootView.child(0).y)
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).height())
         Assert.assertEquals(9F.dpToPx() + 100F.dpToPx(), rootView.child(1).x)
         Assert.assertEquals(0F, rootView.child(1).y)
     }
@@ -1190,11 +1173,11 @@ class GXComponentScrollTest : GXBaseTest() {
 
         Assert.assertEquals(2, rootView.childCount())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).height())
     }
 
     @Test
@@ -1222,14 +1205,14 @@ class GXComponentScrollTest : GXBaseTest() {
 
         Assert.assertEquals(3, rootView.childCount())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).height())
 
-        Assert.assertEquals(200F.dpToPx(), rootView.child(2).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(2).height())
+        Assert.assertEquals(200F.dpToPx(), rootView.child(2).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(2).child(0).height())
     }
 
     @Test
@@ -1280,12 +1263,16 @@ class GXComponentScrollTest : GXBaseTest() {
         Assert.assertEquals(300F.dpToPx(), rootView.height())
     }
 
+    /**
+     * 多坑位类型，有两个子坑位，但由于数据原因，仅显示一个
+     * @see GXNodeUtils
+     */
     @Test
-    fun template_scroll_multi_type_item_two() {
+    fun template_scroll_multi_type_two_item_show_one_item() {
         val templateItem = GXTemplateEngine.GXTemplateItem(
             GXMockUtils.context,
             "scroll",
-            "template_scroll_multi_type_item_two"
+            "template_scroll_multi_type_two_item_show_one_item"
         )
         val templateData = GXTemplateEngine.GXTemplateData(JSONObject().apply {
             this["nodes"] = JSONArray().apply {
@@ -1293,7 +1280,7 @@ class GXComponentScrollTest : GXBaseTest() {
                     this["type"] = 0
                 })
                 this.add(JSONObject().apply {
-                    this["type"] = 1
+                    this["type"] = 0
                 })
             }
         })
@@ -1308,19 +1295,62 @@ class GXComponentScrollTest : GXBaseTest() {
 
         Assert.assertEquals(2, rootView.childCount())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
 
-        Assert.assertEquals(200F.dpToPx(), rootView.child(1).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).height())
     }
 
+    /**
+     * 多坑位类型，有两个子坑位，但由于数据原因，显示两个
+     * @see GXNodeUtils
+     */
     @Test
-    fun template_scroll_multi_type_item_one() {
+    fun template_scroll_multi_type_two_item_show_two_item() {
         val templateItem = GXTemplateEngine.GXTemplateItem(
             GXMockUtils.context,
             "scroll",
-            "template_scroll_multi_type_item_one"
+            "template_scroll_multi_type_two_item_show_two_item"
+        )
+        val templateData = GXTemplateEngine.GXTemplateData(JSONObject().apply {
+            this["nodes"] = JSONArray().apply {
+                this.add(JSONObject().apply {
+                    this["type"] = 0
+                })
+                this.add(JSONObject().apply {
+                    this["type"] = 1
+                })
+            }
+        })
+        val size = GXTemplateEngine.GXMeasureSize(MOCK_SCREEN_WIDTH, null)
+        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
+        GXTemplateEngine.instance.bindData(rootView, templateData)
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(1080F.dpToPx(), rootView.width())
+        Assert.assertEquals(120F.dpToPx(), rootView.height())
+
+        Assert.assertEquals(2, rootView.childCount())
+
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
+
+        Assert.assertEquals(200F.dpToPx(), rootView.child(1).child(0).width())
+        Assert.assertEquals(120F.dpToPx(), rootView.child(1).child(0).height())
+    }
+
+    /**
+     * 多坑位类型，仅有一个坑位
+     * @see GXNodeUtils
+     */
+    @Test
+    fun template_scroll_multi_type_only_one_item() {
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "scroll",
+            "template_scroll_multi_type_only_one_item"
         )
         val templateData = GXTemplateEngine.GXTemplateData(JSONObject().apply {
             this["nodes"] = JSONArray().apply {
@@ -1343,11 +1373,11 @@ class GXComponentScrollTest : GXBaseTest() {
 
         Assert.assertEquals(2, rootView.childCount())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).height())
     }
 
     @Test
@@ -1373,15 +1403,102 @@ class GXComponentScrollTest : GXBaseTest() {
         Assert.assertEquals(1080F.dpToPx(), rootView.width())
         Assert.assertEquals(100F.dpToPx(), rootView.height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
         Assert.assertEquals(9F.dpToPx(), rootView.child(0).x)
         Assert.assertEquals(9F.dpToPx(), rootView.child(0).y)
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).height())
         Assert.assertEquals(9F.dpToPx() + 100F.dpToPx(), rootView.child(1).x)
         Assert.assertEquals(9F.dpToPx(), rootView.child(1).y)
+    }
+
+    @Test
+    fun template_scroll_multi_type_two_gravity_center() {
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "scroll",
+            "template_scroll_multi_type_two_gravity_center"
+        )
+        val templateData = GXTemplateEngine.GXTemplateData(JSONObject().apply {
+            this["nodes"] = JSONArray().apply {
+                this.add(JSONObject().apply {
+                    this["type"] = 0
+                })
+                this.add(JSONObject().apply {
+                    this["type"] = 1
+                })
+            }
+        })
+        val size = GXTemplateEngine.GXMeasureSize(MOCK_SCREEN_WIDTH, null)
+        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
+        GXTemplateEngine.instance.bindData(rootView, templateData)
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(
+            (120F.dpToPx() - 100F.dpToPx()) / 2,
+            rootView.child(0).child(0).top.toFloat()
+        )
+        Assert.assertEquals(
+            (120F.dpToPx() - 100F.dpToPx()) / 2 + 100F.dpToPx(),
+            rootView.child(0).child(0).bottom.toFloat()
+        )
+    }
+
+    @Test
+    fun template_scroll_multi_type_two_gravity_top() {
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "scroll",
+            "template_scroll_multi_type_two_gravity_top"
+        )
+        val templateData = GXTemplateEngine.GXTemplateData(JSONObject().apply {
+            this["nodes"] = JSONArray().apply {
+                this.add(JSONObject().apply {
+                    this["type"] = 0
+                })
+                this.add(JSONObject().apply {
+                    this["type"] = 1
+                })
+            }
+        })
+        val size = GXTemplateEngine.GXMeasureSize(MOCK_SCREEN_WIDTH, null)
+        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
+        GXTemplateEngine.instance.bindData(rootView, templateData)
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(0F, rootView.child(0).child(0).top.toFloat())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).bottom.toFloat())
+    }
+
+    @Test
+    fun template_scroll_multi_type_two_gravity_bottom() {
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "scroll",
+            "template_scroll_multi_type_two_gravity_bottom"
+        )
+        val templateData = GXTemplateEngine.GXTemplateData(JSONObject().apply {
+            this["nodes"] = JSONArray().apply {
+                this.add(JSONObject().apply {
+                    this["type"] = 0
+                })
+                this.add(JSONObject().apply {
+                    this["type"] = 1
+                })
+            }
+        })
+        val size = GXTemplateEngine.GXMeasureSize(MOCK_SCREEN_WIDTH, null)
+        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
+        GXTemplateEngine.instance.bindData(rootView, templateData)
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(120F.dpToPx() - 100F.dpToPx(), rootView.child(0).child(0).top.toFloat())
+        Assert.assertEquals(120F.dpToPx(), rootView.child(0).child(0).bottom.toFloat())
     }
 
     @Test
@@ -1406,7 +1523,7 @@ class GXComponentScrollTest : GXBaseTest() {
 
         Assert.assertEquals(
             Color.parseColor("#e4e4e4"),
-            (rootView.background as? GradientDrawable)?.colors?.get(0)
+            (rootView?.background as? GradientDrawable)?.colors?.get(0)
         )
     }
 

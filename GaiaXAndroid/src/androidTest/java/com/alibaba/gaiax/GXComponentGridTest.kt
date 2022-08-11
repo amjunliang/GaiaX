@@ -50,8 +50,8 @@ class GXComponentGridTest : GXBaseTest() {
         Assert.assertEquals(1080F.dpToPx(), rootView.width())
         Assert.assertEquals(100F.dpToPx(), rootView.height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
         val rect = rootView.child(0).layoutParams.getSuperFieldAny("mDecorInsets") as Rect
         Assert.assertEquals(0F, rect.top.toFloat())
         Assert.assertEquals(0F, rect.bottom.toFloat())
@@ -84,12 +84,19 @@ class GXComponentGridTest : GXBaseTest() {
         Assert.assertEquals(1080F.dpToPx(), rootView.width())
         Assert.assertEquals(200F.dpToPx(), rootView.height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
+
         val rect = rootView.child(0).layoutParams.getSuperFieldAny("mDecorInsets") as Rect
         // 275/2=137.5 四舍五入 138
-        Assert.assertEquals(50F.dpToPx(), rect.top.toFloat() + 1)
-        Assert.assertEquals(50F.dpToPx(), rect.bottom.toFloat() + 1)
+        Assert.assertEquals(
+            50F.dpToPx(),
+            rect.top.toFloat() + if (GXMockUtils.isSpecialDevice()) 1 else 0
+        )
+        Assert.assertEquals(
+            50F.dpToPx(),
+            rect.bottom.toFloat() + if (GXMockUtils.isSpecialDevice()) 1 else 0
+        )
     }
 
     @Test
@@ -187,17 +194,17 @@ class GXComponentGridTest : GXBaseTest() {
 
         Assert.assertEquals(4, rootView.childCount())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(2).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(2).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(2).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(2).child(0).height())
 
-        Assert.assertEquals(1080F.dpToPx(), rootView.child(3).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(3).height())
+        Assert.assertEquals(1080F.dpToPx(), rootView.child(3).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(3).child(0).height())
     }
 
     @Test
@@ -230,14 +237,14 @@ class GXComponentGridTest : GXBaseTest() {
 
         Assert.assertEquals(3, rootView.childCount())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(2).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(2).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(2).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(2).child(0).height())
     }
 
     @Test
@@ -271,20 +278,20 @@ class GXComponentGridTest : GXBaseTest() {
 
         Assert.assertEquals(5, rootView.childCount())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).child(0).height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(1).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(1).child(0).height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(2).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(2).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(2).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(2).child(0).height())
 
-        Assert.assertEquals(100F.dpToPx(), rootView.child(3).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(3).height())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(3).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(3).child(0).height())
 
-        Assert.assertEquals(1080F.dpToPx(), rootView.child(4).width())
-        Assert.assertEquals(100F.dpToPx(), rootView.child(4).height())
+        Assert.assertEquals(1080F.dpToPx(), rootView.child(4).child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(4).child(0).height())
     }
 
     @Test
@@ -643,6 +650,94 @@ class GXComponentGridTest : GXBaseTest() {
 
         Assert.assertEquals(1080F.dpToPx(), rootView.width())
         Assert.assertEquals(100F.dpToPx() * 3, rootView.height())
+    }
+
+    @Test
+    fun template_grid_height_auto_no_data() {
+
+        GXRegisterCenter.instance.registerExtensionCompatibility(object :
+            GXRegisterCenter.GXIExtensionCompatibility {
+            override fun isPreventContainerDataSourceThrowException(): Boolean {
+                return true
+            }
+        })
+
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "grid",
+            "template_grid_height_auto_no_data"
+        )
+
+        val templateData = GXTemplateEngine.GXTemplateData(JSONObject().apply {
+        })
+
+        val size = GXTemplateEngine.GXMeasureSize(MOCK_SCREEN_WIDTH, null)
+
+        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
+
+        GXTemplateEngine.instance.bindData(rootView, templateData)
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(1080F.dpToPx(), rootView.width())
+        Assert.assertEquals(100F.dpToPx(), rootView.height())
+    }
+
+    @Test
+    fun template_grid_height_auto_different_data_youku_version() {
+
+        GXRegisterCenter.instance.registerExtensionDynamicProperty(object :
+            GXRegisterCenter.GXIExtensionDynamicProperty {
+
+            override fun convert(params: GXRegisterCenter.GXIExtensionDynamicProperty.GXParams): Any? {
+                if (params.propertyName == GXTemplateKey.GAIAX_CUSTOM_PROPERTY_GRID_COMPUTE_CONTAINER_HEIGHT) {
+                    if (params.value == false) {
+                        return true
+                    }
+                }
+                return null
+            }
+        })
+
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "grid",
+            "template_grid_height_auto_different_data"
+        )
+
+        val size = GXTemplateEngine.GXMeasureSize(MOCK_SCREEN_WIDTH, null)
+
+        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
+
+        GXTemplateEngine.instance.bindData(
+            rootView,
+            GXTemplateEngine.GXTemplateData(JSONObject().apply {
+                this["nodes"] = JSONArray().apply {
+                    this.add(JSONObject())
+                }
+            })
+        )
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(1080F.dpToPx(), rootView.width())
+        Assert.assertEquals(100F.dpToPx(), rootView.height())
+
+        GXTemplateEngine.instance.bindData(
+            rootView,
+            GXTemplateEngine.GXTemplateData(JSONObject().apply {
+                this["nodes"] = JSONArray().apply {
+                    this.add(JSONObject())
+                    this.add(JSONObject())
+                    this.add(JSONObject())
+                }
+            })
+        )
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(1080F.dpToPx(), rootView.width())
+        Assert.assertEquals(200F.dpToPx(), rootView.height())
     }
 
     @Test
@@ -1157,7 +1252,7 @@ class GXComponentGridTest : GXBaseTest() {
 
         Assert.assertEquals(
             Color.parseColor("#e4e4e4"),
-            (rootView.background as? GradientDrawable)?.colors?.get(0)
+            (rootView?.background as? GradientDrawable)?.colors?.get(0)
         )
     }
 

@@ -33,6 +33,8 @@ class GXAnalyzeTest {
                     GXAnalyze.createValueMap(JSONObject())
                 } else if (valuePath == "data.null") {
                     GXAnalyze.createValueNull()
+                }  else if (valuePath == "data.stringEmpty") {
+                    GXAnalyze.createValueString("");
                 } else {
                     GXAnalyze.createValueFloat64(8F)
                 }
@@ -64,6 +66,27 @@ class GXAnalyzeTest {
         })
         // 初始化数据
         testData.put("test", 11)
+    }
+
+    @Test
+    fun empty_test(){
+        Assert.assertEquals("", instance.getResult("\$data.stringEmpty", testData))
+        Assert.assertEquals("test", instance.getResult("\$data.stringEmpty + 'test'", testData))
+        Assert.assertEquals("", instance.getResult("''", testData))
+        Assert.assertEquals(null, instance.getResult("", testData))
+        Assert.assertEquals(null, instance.getResult("null", testData))
+    }
+
+    @Test
+    fun num_test(){
+        Assert.assertEquals(10000f, instance.getResult("10000", testData))
+        Assert.assertEquals(10f, instance.getResult("10.000", testData))
+        Assert.assertEquals(100f, instance.getResult("100.00", testData))
+        Assert.assertEquals(1000f, instance.getResult("1000.0", testData))
+        Assert.assertEquals(1001f, instance.getResult("1001.0", testData))
+        Assert.assertEquals(1111f, instance.getResult("1111", testData))
+        Assert.assertEquals(11110f, instance.getResult("11110", testData))
+        Assert.assertEquals(20000f, instance.getResult("10000+10000", testData))
     }
 
     @Test
@@ -245,6 +268,7 @@ class GXAnalyzeTest {
     fun ternary() {
         Assert.assertEquals(null, instance.getResult("false ? \$data : null", testData))
         Assert.assertEquals(0f, instance.getResult("false ? 1 : 0", testData))
+        Assert.assertEquals(1f, instance.getResult("\$data ? 1 : 0", testData))
         Assert.assertEquals(1f, instance.getResult("true ? 1 : 0", testData))
         Assert.assertEquals(1f, instance.getResult("true ? 1 : 0", testData))
         Assert.assertEquals(true, instance.getResult("true ?: 1", testData))

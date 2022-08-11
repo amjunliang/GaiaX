@@ -27,17 +27,17 @@ class EventTemplateActivity : AppCompatActivity() {
         GXTemplateEngine.instance.init(activity)
 
         // 模板参数
-        val params = GXTemplateEngine.GXTemplateItem(activity, "templates", "gx-content-uper")
+        val params = GXTemplateEngine.GXTemplateItem(activity, "assets_data_source/templates", "gx-content-uper")
 
         // 模板绘制尺寸
         val size = GXTemplateEngine.GXMeasureSize(GXScreenUtils.getScreenWidthPx(this), null)
 
         // 模板数据
-        val data = AssetsUtils.parseAssets(activity, "data/uper.json")
+        val data = AssetsUtils.parseAssets(activity, "assets_data_source/data/uper.json")
         val templateData = GXTemplateEngine.GXTemplateData(data)
 
         // 创建模板View
-        val view = GXTemplateEngine.instance.createView(params, size)
+        val view = GXTemplateEngine.instance.createView(params, size)!!
 
         templateData.eventListener = object : GXTemplateEngine.GXIEventListener {
 

@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="https://img.alicdn.com/imgextra/i2/O1CN01DvZYVD1hLaOVqNlkK_!!6000000004261-2-tps-1024-1024.png" width="250" alt="GaiaX-logo">
+    <img src="https://gw.alicdn.com/imgextra/i2/O1CN0140Ny0n1kYMIeGmeyp_!!6000000004695-2-tps-1024-1024.png" width="250" alt="GaiaX-logo">
 </h1>
 <p align="center">
     GaiaX dynamic template engine is a lightweight cross-platform solution for pure native dynamic card, developed by Alibaba YouKu technology team
@@ -9,13 +9,13 @@
 
 [![README-en](https://shields.io/badge/README-ENGLISH-blue)](README.md)
 [![README-zh](https://shields.io/badge/README-%E4%B8%AD%E6%96%87-blue)](README-ZH.md)
-[![Docs-zh](https://shields.io/badge/Docs-%E4%B8%AD%E6%96%87-blue?logo=Read%20The%20Docs)](www.yuque.com/biezhihua/gaiax)
+[![Docs-zh](https://shields.io/badge/Docs-%E4%B8%AD%E6%96%87-blue?logo=Read%20The%20Docs)](https://www.yuque.com/biezhihua/gaiax)
 [![GitHub release](https://img.shields.io/github/release/alibaba/GaiaX)](https://github.com/alibaba/GaiaX/releases)
-[![License](https://img.shields.io/github/license/alibaba/GaiaX?color=4D7A97&logo=apache)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![GitHub Stars](https://img.shields.io/github/stars/alibaba/GaiaX)](https://github.com/alibaba/GaiaX/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/alibaba/GaiaX)](https://github.com/alibaba/GaiaX/fork)
 [![user repos](https://badgen.net/github/dependents-repo/alibaba/GaiaX?label=user%20repos)](https://github.com/alibaba/GaiaX/network/dependents)
 [![GitHub Contributors](https://img.shields.io/github/contributors/alibaba/GaiaX)](https://github.com/alibaba/GaiaX/graphs/contributors)
+![License](https://img.shields.io/github/license/alibaba/GaiaX)
 
 </p>
 
@@ -188,6 +188,11 @@ UIView *view = [TheGXTemplateEngine creatViewByTemplateItem:item measureSize:siz
 [self.view addSubview:view];
 ```
 
+## Roadmap
+
+![image](https://user-images.githubusercontent.com/6761107/179889189-addbfabc-4aab-4d04-9b81-be30ae2878bb.png)
+
+
 ## Contributing
 
 We very welcome your to contribute code for the project. In you before writing any code, start by creating a issue or pull request in order for us to be able to discuss details of the proposal and the rationality of the scheme. You can in the following areas contribute code:
@@ -216,12 +221,6 @@ WeChat：
 
 Email:
 biezhihua@gmail.com
-
-## Supporters
-
-[![Forkers repo roster for @alibaba/GaiaX](https://reporoster.com/forks/alibaba/GaiaX)](https://github.com/alibaba/GaiaX/network/members)
-
-[![Stargazers repo roster for @alibaba/GaiaX](https://reporoster.com/stars/alibaba/GaiaX)](https://github.com/alibaba/GaiaX/stargazers)
 
 # LICENSE
 ```

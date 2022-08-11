@@ -108,7 +108,7 @@ data class GXStretchNode(
                 }
 
             if (isComputeContainerHeight) {
-                val containerSize = GXNodeUtils.computeContainerHeightByItemTemplate(
+                val containerSize = GXNodeUtils.computeContainerSizeByItemTemplate(
                     gxTemplateContext,
                     gxNode,
                     containerTemplateData
@@ -118,13 +118,14 @@ data class GXStretchNode(
                     isDirty = true
                 }
             }
+
         } else if (gxNode.isGridType()) {
 
             val finalGridConfig = gxNode.templateNode.finalGridConfig
                 ?: throw IllegalArgumentException("Want to updateContainerLayout, but finalGridConfig is null")
 
-            var isComputeContainerHeight =
-                finalGridConfig.isVertical && flexGrow == null && (height == null || height == Dimension.Auto || height == Dimension.Undefined)
+            var isComputeContainerHeight = finalGridConfig.isVertical &&
+                    flexGrow == null && (height == null || height == Dimension.Auto || height == Dimension.Undefined)
 
             // 对计算结果进行处理
             GXRegisterCenter
@@ -144,7 +145,7 @@ data class GXStretchNode(
 
             // 当容器节点不是flexGrow时，且容器节点的高度设置，或者是默认，或者是未定义，需要主动计算高度
             if (isComputeContainerHeight) {
-                val containerSize = GXNodeUtils.computeContainerHeightByItemTemplate(
+                val containerSize = GXNodeUtils.computeContainerSizeByItemTemplate(
                     gxTemplateContext,
                     gxNode,
                     containerTemplateData

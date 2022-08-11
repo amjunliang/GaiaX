@@ -18,6 +18,7 @@ package com.alibaba.gaiax.render.node
 
 import android.animation.AnimatorSet
 import android.view.View
+import app.visly.stretch.Layout
 import com.alibaba.gaiax.GXRegisterCenter
 import com.alibaba.gaiax.GXTemplateEngine
 import com.alibaba.gaiax.template.GXLayer
@@ -26,6 +27,9 @@ import com.alibaba.gaiax.template.GXLayer
  * @suppress
  */
 class GXNode {
+
+    var multiTypeItemComputeCache: MutableMap<GXTemplateEngine.GXTemplateItem, Layout>? =
+        null
 
     /**
      * 属性动画
@@ -140,6 +144,8 @@ class GXNode {
     fun isScrollType(): Boolean = templateNode.isScrollType()
 
     fun isSliderType(): Boolean = templateNode.isSliderType()
+
+    fun isProgressType(): Boolean = templateNode.isProgressType()
 
     fun isNeedShadow(): Boolean {
         return (isViewType() || isImageType()) && templateNode.css.style.boxShadow != null

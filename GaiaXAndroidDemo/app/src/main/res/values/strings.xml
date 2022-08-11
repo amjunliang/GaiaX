@@ -6,5 +6,6 @@
     <string name="container_template">Container Template</string>
     <string name="data">Data Binding</string>
     <string name="event">Event Binding</string>
-    <string name="api">Api</string>
+    <string name="remote_data_source">Remote Data Source</string>
+    <string name="business">Business</string>
 </resources>

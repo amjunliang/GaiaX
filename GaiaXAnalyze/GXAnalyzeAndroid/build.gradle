@@ -15,7 +15,7 @@ allprojects {
 
 buildscript {
 
-    ext.kotlin_version = '1.3.50'
+    ext.kotlin_version = '1.5.31'
 
     repositories {
         mavenLocal()
@@ -33,15 +33,15 @@ buildscript {
 
 }
 
-def platformVersion = 21
+def platformVersion = 16
 
 android {
 
-    compileSdk 31
+    compileSdk 28
 
     defaultConfig {
-        minSdk 21
-        targetSdk 31
+        minSdk 16
+        targetSdk 28
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         consumerProguardFiles 'consumer-rules.pro'
@@ -107,7 +107,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.3.50@jar"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.31@jar"
     implementation 'com.alibaba:fastjson:1.2.26@jar'
 
     testImplementation 'junit:junit:4.13.2'

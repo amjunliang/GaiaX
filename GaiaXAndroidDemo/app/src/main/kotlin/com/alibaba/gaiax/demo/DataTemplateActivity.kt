@@ -26,7 +26,7 @@ class DataTemplateActivity : AppCompatActivity() {
         GXTemplateEngine.instance.init(activity)
 
         // 模板参数
-        val params = GXTemplateEngine.GXTemplateItem(activity, "templates", "gx-subscribe-item")
+        val params = GXTemplateEngine.GXTemplateItem(activity, "assets_data_source/templates", "gx-subscribe-item")
 
         // 模板绘制尺寸
         val size = GXTemplateEngine.GXMeasureSize(GXScreenUtils.getScreenWidthPx(this), null)
@@ -35,12 +35,12 @@ class DataTemplateActivity : AppCompatActivity() {
         val templateData = GXTemplateEngine.GXTemplateData(
             AssetsUtils.parseAssets(
                 activity,
-                "data/subscribe-item.json"
+                "assets_data_source/data/subscribe-item.json"
             )
         )
 
         // 创建模板View
-        val view = GXTemplateEngine.instance.createView(params, size)
+        val view = GXTemplateEngine.instance.createView(params, size)!!
 
         // 绑定数据
         GXTemplateEngine.instance.bindData(view, templateData)
@@ -54,7 +54,7 @@ class DataTemplateActivity : AppCompatActivity() {
         GXTemplateEngine.instance.init(activity)
 
         // 模板参数
-        val params = GXTemplateEngine.GXTemplateItem(activity, "templates", "gx-subscribe-item")
+        val params = GXTemplateEngine.GXTemplateItem(activity, "assets_data_source/templates", "gx-subscribe-item")
 
         // 模板绘制尺寸
         val size = GXTemplateEngine.GXMeasureSize(GXScreenUtils.getScreenWidthPx(this), null)
@@ -63,7 +63,7 @@ class DataTemplateActivity : AppCompatActivity() {
         val templateData = GXTemplateEngine.GXTemplateData(
             AssetsUtils.parseAssets(
                 activity,
-                "data/subscribe-item.json"
+                "assets_data_source/data/subscribe-item.json"
             )
         )
         templateData.dataListener = object : GXTemplateEngine.GXIDataListener {
@@ -85,7 +85,7 @@ class DataTemplateActivity : AppCompatActivity() {
         }
 
         // 创建模板View
-        val view = GXTemplateEngine.instance.createView(params, size)
+        val view = GXTemplateEngine.instance.createView(params, size)!!
 
         // 绑定数据
         GXTemplateEngine.instance.bindData(view, templateData)

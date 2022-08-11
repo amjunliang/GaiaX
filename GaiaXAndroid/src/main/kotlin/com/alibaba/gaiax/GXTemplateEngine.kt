@@ -30,7 +30,6 @@ import com.alibaba.gaiax.render.node.GXTemplateNode
 import com.alibaba.gaiax.render.node.getGXNodeById
 import com.alibaba.gaiax.render.node.getGXViewById
 import com.alibaba.gaiax.render.view.GXIViewBindData
-import com.alibaba.gaiax.render.view.basic.GXView
 import com.alibaba.gaiax.template.GXCss
 import com.alibaba.gaiax.template.GXStyleConvert
 import com.alibaba.gaiax.template.GXTemplateKey
@@ -329,8 +328,21 @@ class GXTemplateEngine {
     }
 
     /**
-     * Template viewport parameters
-     * Used to determine the drawable size of a template
+     *
+     * GXMeasureSize是一个限制性的概念，它规定的是GaiaX模板内容的最大显示区域，并且是非必传的。
+     *
+     * 一般来说我们有三种使用情况。
+     *
+     * 1. 固定的MeasureSize-Width和固定的MeasureSize-Height。
+     *    如果内部的模板超出了宽度和高度，那么内容不会被显示，最终产物View就是MeasureSize-Width和MeasureSize-height。
+     * 2. 固定的MeasureSize-Width，不确定的MeasureSize-Height（不传入）。
+     *    如果内部的模板实际宽度超出了MeasureSize-width，那么超出的部分不会被显示；
+     *    如果内部模板的高度能够自我撑开（具备高度）；
+     *    最终产物View的宽度就是MeasureSize-Width，而高度就是模板通过FlexBox计算后撑开的高度。
+     * 3. 不确定的MeasureSize-Width（不传入），确定的MeasureSize-Height。
+     *    这种情况下，如果内部的模板实际高度超出了MeasureSize-height，那么超出的部分不会被显示；
+     *    如果内部模板的宽度能够自我撑开（具备宽度）；
+     *    最终产物View的宽度就是是模板通过FlexBox计算后撑开的宽度，而高度就是Measure-Height。
      */
     data class GXMeasureSize(var width: Float?, var height: Float?) {
 
@@ -451,14 +463,14 @@ class GXTemplateEngine {
         gxTemplateItem: GXTemplateItem,
         gxMeasureSize: GXMeasureSize,
         gxVisualTemplateNode: GXTemplateNode? = null
-    ): View {
+    ): View? {
         return try {
             internalCreateView(gxTemplateItem, gxMeasureSize, gxVisualTemplateNode)
         } catch (e: Exception) {
             val extensionException = GXRegisterCenter.instance.extensionException
             if (extensionException != null) {
                 extensionException.exception(e)
-                GXView(gxTemplateItem.context)
+                null
             } else {
                 throw e
             }
@@ -483,14 +495,21 @@ class GXTemplateEngine {
     /**
      * To bind template data
      *
-     * @param view The root view
+     * @param gxView The root view
      * @param gxTemplateData The template data
      * @param gxMeasureSize The template measure size, it look like a viewport of draw system, use to sure a size of template' view.
      * @throws IllegalArgumentException
      */
-    fun bindData(view: View, gxTemplateData: GXTemplateData, gxMeasureSize: GXMeasureSize? = null) {
+    fun bindData(
+        gxView: View?,
+        gxTemplateData: GXTemplateData,
+        gxMeasureSize: GXMeasureSize? = null
+    ) {
         try {
-            internalBindData(view, gxTemplateData, gxMeasureSize)
+            if (gxView == null) {
+                throw IllegalArgumentException("view is null")
+            }
+            internalBindData(gxView, gxTemplateData, gxMeasureSize)
         } catch (e: Exception) {
             val extensionException = GXRegisterCenter.instance.extensionException
             if (extensionException != null) {
@@ -524,14 +543,14 @@ class GXTemplateEngine {
         gxTemplateItem: GXTemplateItem,
         gxMeasureSize: GXMeasureSize,
         gxVisualTemplateNode: GXTemplateNode?
-    ): GXTemplateContext {
+    ): GXTemplateContext? {
         return try {
             internalCreateGXTemplateContext(gxTemplateItem, gxMeasureSize, gxVisualTemplateNode)
         } catch (e: Exception) {
             val extensionException = GXRegisterCenter.instance.extensionException
             if (extensionException != null) {
                 extensionException.exception(e)
-                GXTemplateContext(gxTemplateItem.context)
+                null
             } else {
                 throw e
             }
@@ -560,14 +579,14 @@ class GXTemplateEngine {
      */
     fun createViewOnlyViewTree(
         gxTemplateContext: GXTemplateContext
-    ): View {
+    ): View? {
         return try {
             internalCreateViewOnlyViewTree(gxTemplateContext)
         } catch (e: Exception) {
             val extensionException = GXRegisterCenter.instance.extensionException
             if (extensionException != null) {
                 extensionException.exception(e)
-                GXView(gxTemplateContext.context)
+                null
             } else {
                 throw e
             }
@@ -582,9 +601,13 @@ class GXTemplateEngine {
      * @suppress
      * @hide
      */
-    fun bindDataOnlyNodeTree(view: View, gxTemplateData: GXTemplateData) {
+    fun bindDataOnlyNodeTree(
+        view: View,
+        gxTemplateData: GXTemplateData,
+        gxMeasureSize: GXMeasureSize? = null
+    ) {
         try {
-            internalBindDataOnlyNodeTree(view, gxTemplateData)
+            internalBindDataOnlyNodeTree(view, gxTemplateData, gxMeasureSize)
         } catch (e: Exception) {
             val extensionException = GXRegisterCenter.instance.extensionException
             if (extensionException != null) {
@@ -597,10 +620,14 @@ class GXTemplateEngine {
 
     private fun internalBindDataOnlyNodeTree(
         view: View,
-        gxTemplateData: GXTemplateData
+        gxTemplateData: GXTemplateData,
+        gxMeasureSize: GXMeasureSize? = null
     ) {
         val gxTemplateContext = GXTemplateContext.getContext(view)
             ?: throw IllegalArgumentException("Not found templateContext from targetView")
+        if (gxMeasureSize != null) {
+            gxTemplateContext.size = gxMeasureSize
+        }
         gxTemplateContext.templateData = gxTemplateData
         render.bindViewDataOnlyNodeTree(gxTemplateContext)
     }
@@ -609,9 +636,13 @@ class GXTemplateEngine {
      * @suppress
      * @hide
      */
-    fun bindDataOnlyViewTree(view: View, gxTemplateData: GXTemplateData) {
+    fun bindDataOnlyViewTree(
+        view: View,
+        gxTemplateData: GXTemplateData,
+        gxMeasureSize: GXMeasureSize? = null
+    ) {
         try {
-            internalBindDataOnlyViewTree(view, gxTemplateData)
+            internalBindDataOnlyViewTree(view, gxTemplateData, gxMeasureSize)
         } catch (e: Exception) {
             val extensionException = GXRegisterCenter.instance.extensionException
             if (extensionException != null) {
@@ -624,10 +655,14 @@ class GXTemplateEngine {
 
     private fun internalBindDataOnlyViewTree(
         view: View,
-        gxTemplateData: GXTemplateData
+        gxTemplateData: GXTemplateData,
+        gxMeasureSize: GXMeasureSize? = null
     ) {
         val gxTemplateContext = GXTemplateContext.getContext(view)
             ?: throw IllegalArgumentException("Not found templateContext from targetView")
+        if (gxMeasureSize != null) {
+            gxTemplateContext.size = gxMeasureSize
+        }
         gxTemplateContext.templateData = gxTemplateData
         render.bindViewDataOnlyViewTree(gxTemplateContext)
     }
@@ -645,7 +680,7 @@ class GXTemplateEngine {
      * Get template View
      * @suppress
      */
-    fun getGXViewById(targetView: View, id: String): View? {
+    fun getGXViewById(targetView: View?, id: String): View? {
         GXTemplateContext.getContext(targetView)?.let { context ->
             return context.rootNode?.getGXViewById(id)
         }
@@ -657,7 +692,7 @@ class GXTemplateEngine {
      * @suppress
      * @hide
      */
-    fun getGXNodeById(targetView: View, id: String): GXNode? {
+    fun getGXNodeById(targetView: View?, id: String): GXNode? {
         GXTemplateContext.getContext(targetView)?.let { context ->
             return context.rootNode?.getGXNodeById(id)
         }

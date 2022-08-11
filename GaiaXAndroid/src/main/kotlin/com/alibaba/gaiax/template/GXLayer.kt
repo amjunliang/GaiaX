@@ -16,6 +16,7 @@
 
 package com.alibaba.gaiax.template
 
+import android.view.Gravity
 import com.alibaba.fastjson.JSONObject
 import com.alibaba.gaiax.GXRegisterCenter
 import com.alibaba.gaiax.render.view.GXViewKey
@@ -66,6 +67,10 @@ data class GXLayer constructor(
      */
     val sliderConfig: GXSliderConfig? = null,
     /**
+     * slider配置
+     */
+    val progressConfig: GXProgressConfig? = null,
+    /**
      * 子节点
      */
     val layers: MutableList<GXLayer> = mutableListOf()
@@ -111,6 +116,12 @@ data class GXLayer constructor(
             }
             val column = data.getInteger(GXTemplateKey.GAIAX_LAYER_COLUMN) ?: 1
             val scrollable = data.getBoolean(GXTemplateKey.GAIAX_LAYER_SCROLL_ENABLE) ?: false
+            val gravity = when (data.getString(GXTemplateKey.GAIAX_LAYER_GRAVITY)) {
+                "top" -> Gravity.TOP
+                "bottom" -> Gravity.BOTTOM
+                "center" -> Gravity.CENTER
+                else -> null
+            }
             return when {
                 isScrollType(type, subType) -> GXLayer(
                     id = id,
@@ -118,7 +129,13 @@ data class GXLayer constructor(
                     type = type,
                     subType = subType,
                     customNodeClass = viewClass,
-                    scrollConfig = GXScrollConfig.create(data, direction, edgeInsets, itemSpacing),
+                    scrollConfig = GXScrollConfig.create(
+                        data,
+                        direction,
+                        edgeInsets,
+                        itemSpacing,
+                        gravity
+                    ),
                     gridConfig = null
                 )
                 isGridType(type, subType) -> GXLayer(
@@ -146,6 +163,14 @@ data class GXLayer constructor(
                     customNodeClass = viewClass,
                     sliderConfig = GXSliderConfig.create(data)
                 )
+                isProgressType(type) -> GXLayer(
+                    id = id,
+                    css = css ?: id,
+                    type = type,
+                    subType = subType,
+                    customNodeClass = viewClass,
+                    progressConfig = GXProgressConfig.create(data)
+                )
                 else -> GXLayer(
                     id = id,
                     css = css ?: id,
@@ -166,6 +191,8 @@ data class GXLayer constructor(
 
         private fun isSliderType(type: String, subType: String?) =
             type == GXViewKey.VIEW_TYPE_GAIA_TEMPLATE && subType == GXViewKey.VIEW_TYPE_CONTAINER_SLIDER
+
+        private fun isProgressType(type: String) = type == GXViewKey.VIEW_TYPE_PROGRESS
 
         private fun initChildrenLayer(data: JSONObject, layer: GXLayer) {
             data.getJSONArray(GXTemplateKey.GAIAX_LAYERS)?.forEach {
@@ -262,6 +289,11 @@ data class GXLayer constructor(
      * 图片类型
      */
     fun isImageType(): Boolean = GXViewKey.VIEW_TYPE_IMAGE == type
+
+    /**
+     * Progress 类型
+     */
+    fun isProgressType(): Boolean = GXViewKey.VIEW_TYPE_PROGRESS == type
 
     /**
      * Slider 容器节点类型

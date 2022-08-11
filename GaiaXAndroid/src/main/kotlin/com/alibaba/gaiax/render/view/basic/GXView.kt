@@ -21,6 +21,7 @@ import android.graphics.Outline
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.ViewOutlineProvider
 import android.widget.AbsoluteLayout
@@ -53,6 +54,8 @@ open class GXView : AbsoluteLayout,
         attrs,
         defStyleAttr
     )
+
+    private var overflow: Boolean = false
 
     private var gxTemplateContext: GXTemplateContext? = null
 
@@ -96,14 +99,16 @@ open class GXView : AbsoluteLayout,
             val tr = radius[2]
             val bl = radius[4]
             val br = radius[6]
-            if (tl == tr && tr == bl && bl == br) {
-                this.clipToOutline = true
-                this.outlineProvider = object : ViewOutlineProvider() {
-                    override fun getOutline(view: View, outline: Outline) {
-                        if (alpha >= 0.0f) {
-                            outline.alpha = alpha
+            if (tl == tr && tr == bl && bl == br && tl > 0) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    this.clipToOutline = true
+                    this.outlineProvider = object : ViewOutlineProvider() {
+                        override fun getOutline(view: View, outline: Outline) {
+                            if (alpha >= 0.0f) {
+                                outline.alpha = alpha
+                            }
+                            outline.setRoundRect(0, 0, view.width, view.height, tl)
                         }
-                        outline.setRoundRect(0, 0, view.width, view.height, tl)
                     }
                 }
             }
@@ -111,12 +116,22 @@ open class GXView : AbsoluteLayout,
     }
 
     override fun setRoundCornerBorder(borderColor: Int, borderWidth: Float, radius: FloatArray) {
-        val shape = GXRoundCornerBorderGradientDrawable()
-        shape.shape = GradientDrawable.RECTANGLE
-        shape.cornerRadii = radius
-        shape.setStroke(borderWidth.toDouble().roundToInt(), borderColor)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            foreground = shape
+        when (background) {
+            null -> {
+                val shape = GXRoundCornerBorderGradientDrawable()
+                shape.shape = GradientDrawable.RECTANGLE
+                shape.cornerRadii = radius
+                shape.setStroke(borderWidth.toDouble().roundToInt(), borderColor)
+                background = shape
+            }
+            is GradientDrawable -> {
+                (background as GradientDrawable).setStroke(
+                    borderWidth.toDouble().roundToInt(), borderColor
+                )
+            }
+            else -> {
+                Log.e("[GaiaX]", "setRoundCornerBorder: not support current case")
+            }
         }
     }
 }

@@ -106,7 +106,7 @@ class GXStyleConvert {
     fun overflow(css: JSONObject): Boolean? = when (css.getString(GXTemplateKey.FLEXBOX_OVERFLOW)) {
         "visible" -> false
         "hidden" -> true
-        else -> null
+        else -> true
     }
 
     fun opacity(css: JSONObject): Float? = css.getString(GXTemplateKey.STYLE_OPACITY)?.toFloat()
@@ -153,6 +153,7 @@ class GXStyleConvert {
                 null
             }
             "ellipsis" -> TextUtils.TruncateAt.END
+            "middle" -> TextUtils.TruncateAt.MIDDLE
             else -> TextUtils.TruncateAt.END
         }
 
