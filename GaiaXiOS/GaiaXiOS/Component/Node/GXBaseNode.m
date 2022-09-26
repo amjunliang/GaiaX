@@ -83,7 +83,7 @@
                 if ([backgroundImage isEqualToString:@"null"]) {
                     _currentBgColor = self.backgroundColor;
                 } else {
-                    _currentBgColor = [UIColor gx_colorWithString:backgroundColor];
+                    _currentBgColor = [UIColor gx_colorWithString:backgroundImage];
                 }
                 //清除layer
                 [view gx_clearGradientBackground];
@@ -571,6 +571,7 @@
     //boxShadow
     NSString *boxShadow = [styleJson gx_stringForKey:@"box-shadow"];
     if (boxShadow.length) {
+        isNeedFlat = NO;
         self.boxShadow = boxShadow;
     }
     
@@ -623,7 +624,7 @@
     NSString *className = NSStringFromClass(self.class);
     if ([className isEqualToString:@"GXViewNode"]) {
         // 无属性图层，并且不需要动态绑定数据，也不需要动画, 则认为是可以优化的图层
-        self.isFlat = (isNeedFlat && !self.data && !self.event && !self.animation);
+        self.isFlat = (isNeedFlat && ![self shouldBind]);
     }
     
 }

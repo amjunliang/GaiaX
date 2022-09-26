@@ -153,7 +153,29 @@
     [scrollView reloadData];
 }
 
-// 处理extend
+
+#pragma mark - 计算高度
+
+- (void)calculateWithData:(NSDictionary *)data{
+    //数据
+    NSArray *dataArray = nil;
+    NSDictionary *extend = nil;
+    if ([GXUtils isValidDictionary:data]) {
+        //获取为{"value":[]}类型 & extend
+        dataArray = [data gx_arrayForKey:@"value"];
+        extend = [data gx_dictionaryForKey:@"extend"];
+    }
+    
+    //赋值items
+    [self processListData:dataArray];
+    
+    //计算extend
+    [self handleExtend:extend isCalculate:YES];
+}
+
+
+#pragma mark - 处理extend
+
 - (void)handleExtend:(NSDictionary *)extend isCalculate:(BOOL)isCalculate{
     //更新布局属性 & 标记
     BOOL isMark = [self updateLayoutStyle:extend];
@@ -328,26 +350,6 @@
 }
 
 
-#pragma mark - 计算高度
-
-- (void)calculateWithData:(NSDictionary *)data{
-    //数据
-    NSArray *dataArray = nil;
-    NSDictionary *extend = nil;
-    if ([GXUtils isValidDictionary:data]) {
-        //获取为{"value":[]}类型 & extend
-        dataArray = [data gx_arrayForKey:@"value"];
-        extend = [data gx_dictionaryForKey:@"extend"];
-    }
-    
-    //赋值items
-    [self processListData:dataArray];
-    
-    //计算extend
-    [self handleExtend:extend isCalculate:YES];
-}
-
-
 #pragma mark - 处理数据源
 
 //将原始数据转化GXTemplateData
@@ -438,6 +440,9 @@
         _scrollEvent.contentOffset = scrollView.contentOffset;
         [eventListener gx_onScrollEndEvent:_scrollEvent];
     }
+    
+    //埋点处理
+    [self handleVisibleCells];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
@@ -452,9 +457,37 @@
             _scrollEvent.contentOffset = scrollView.contentOffset;
             [eventListener gx_onScrollEndEvent:_scrollEvent];
         }
+        
+        //埋点处理
+        [self handleVisibleCells];
     }
 }
 
+
+#pragma mark - appear
+
+- (void)onAppear{
+    [super onAppear];
+    [self handleVisibleCells];
+}
+
+- (void)onDisappear{
+    [super onDisappear];
+}
+
+- (void)handleVisibleCells{
+    if (self.isAppear) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UICollectionView *collectionView = (UICollectionView *)self.associatedView;
+                NSArray *cells = [collectionView visibleCells];
+                for (GXScrollViewCell *cell in cells) {
+                    [cell.rootView onAppear];
+                }
+            });
+        });
+    }
+}
 
 #pragma mark - 属性设置
 

@@ -882,6 +882,21 @@ class GXComponentTextTest : GXBaseTest() {
     }
 
     @Test
+    fun template_text_fitcontent_lines_0_width_100px_height_null_parent_display_none() {
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "text",
+            "template_text_fitcontent_lines_0_width_100px_height_null_parent_display_none"
+        )
+        val templateData = GXTemplateEngine.GXTemplateData(JSONObject())
+        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
+        GXTemplateEngine.instance.bindData(rootView, templateData)
+
+        Assert.assertEquals(0F, rootView.child(0).width())
+        Assert.assertEquals(0F, rootView.child(0).height())
+    }
+
+    @Test
     fun template_text_fitcontent_lines_1_width_null_height_100px() {
         val templateItem = GXTemplateEngine.GXTemplateItem(
             GXMockUtils.context,
@@ -1214,6 +1229,40 @@ class GXComponentTextTest : GXBaseTest() {
             1080F - 36F.dpToPx() - 14F.dpToPx() - 14F.dpToPx(),
             rootView.child(1).width()
         )
+    }
+
+    @Test
+    fun template_text_fitcontent_lines_2_width_100_percent_height_auto_repeat_bind_data_change_measure_size() {
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "text",
+            "template_text_fitcontent_lines_2_width_100_percent_height_auto_repeat_bind_data_change_measure_size"
+        )
+        val rootView = GXTemplateEngine.instance.createView(
+            templateItem,
+            GXTemplateEngine.GXMeasureSize(375F.dpToPx(), null)
+        )
+
+        GXTemplateEngine.instance.bindData(
+            rootView,
+            GXTemplateEngine.GXTemplateData(JSONObject().apply {
+                this["text"] = "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
+            })
+        )
+
+        Assert.assertEquals(375F.dpToPx(), rootView.width())
+        Assert.assertEquals(375F.dpToPx(), rootView.child(0).width())
+
+        GXTemplateEngine.instance.bindData(
+            rootView,
+            GXTemplateEngine.GXTemplateData(JSONObject().apply {
+                this["text"] = "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
+            }),
+            GXTemplateEngine.GXMeasureSize(500F.dpToPx(), null)
+        )
+
+        Assert.assertEquals(500F.dpToPx(), rootView.width())
+        Assert.assertEquals(500F.dpToPx(), rootView.child(0).width())
     }
 
     @Test

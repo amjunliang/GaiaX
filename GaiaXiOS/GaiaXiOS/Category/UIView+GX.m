@@ -35,6 +35,9 @@ static const void *kGXTemplateVersionKey = &kGXTemplateVersionKey;
 //圆角
 static const void *kGXBorderLayerKey = &kGXBorderLayerKey;
 static const void *kGXCornerRadiusKey = &kGXCornerRadiusKey;
+
+//渐变View
+static const void *kGXGradientViewKey = &kGXGradientViewKey;
 //渐变Image
 static const void *kGXGradientImageKey = &kGXGradientImageKey;
 //渐变Layer
@@ -145,12 +148,15 @@ static const void *kGaiaShadowLayerKey = &kGaiaShadowLayerKey;
     //基础信息
     GXNode *node = self.gxNode;
     GXEvent *event = self.gxEvent;
+    
     //事件分发
     id <GXEventProtocal> eventListener = node.templateContext.templateData.eventListener;
     if (eventListener && [eventListener respondsToSelector:@selector(gx_onGestureEvent:)]) {
         [eventListener gx_onGestureEvent:event];
     }
     
+    //点击埋点分发
+    [node manualClickTrackEvent];
 }
 
 
@@ -166,6 +172,16 @@ static const void *kGaiaShadowLayerKey = &kGaiaShadowLayerKey;
 
 - (void)setGxLinearGradient:(NSString *)gxLinearGradient{
     objc_setAssociatedObject(self, &kGXLinearGradientKey, gxLinearGradient, OBJC_ASSOCIATION_RETAIN);
+}
+
+
+//gradientView
+- (UIView *)gxGradientView{
+    return objc_getAssociatedObject(self, &kGXGradientViewKey);
+}
+
+- (void)setGxGradientView:(UIView *)gxGradientView{
+    objc_setAssociatedObject(self, &kGXGradientViewKey, gxGradientView, OBJC_ASSOCIATION_RETAIN);
 }
 
 //gradientImage
@@ -193,8 +209,17 @@ static const void *kGaiaShadowLayerKey = &kGaiaShadowLayerKey;
     
     //设置渐变layer
     CGRect bounds = self.bounds;
-    CAGradientLayer *layer = [GXGradientHelper creatGradientLayerWithParams:backgroundGradient bounds:bounds];
-    if (layer) {
+//    CAGradientLayer *layer = [GXGradientHelper creatGradientLayerWithParams:backgroundGradient bounds:bounds];
+//    if (layer) {
+//        self.gxGradientLayer = layer;
+//        [self.layer insertSublayer:layer atIndex:0];
+//    }
+    
+    UIView *view = [GXGradientHelper creatGradientViewWithParams:backgroundGradient bounds:bounds];
+    if (view) {
+        self.gxGradientView = view;
+        //添加背景
+        CAGradientLayer *layer = (CAGradientLayer *)view.layer;
         self.gxGradientLayer = layer;
         [self.layer insertSublayer:layer atIndex:0];
     }

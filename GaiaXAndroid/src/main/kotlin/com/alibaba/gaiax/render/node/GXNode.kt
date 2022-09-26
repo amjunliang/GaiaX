@@ -21,6 +21,7 @@ import android.view.View
 import app.visly.stretch.Layout
 import com.alibaba.gaiax.GXRegisterCenter
 import com.alibaba.gaiax.GXTemplateEngine
+import com.alibaba.gaiax.context.GXTemplateContext
 import com.alibaba.gaiax.template.GXLayer
 
 /**
@@ -28,6 +29,12 @@ import com.alibaba.gaiax.template.GXLayer
  */
 class GXNode {
 
+    /**
+     * TODO:
+     * 此处的缓存可能会导致GXItemContainer高度不正确。
+     * 在有些情况下，业务会根据数据动态修改高度，在首次的时候没有这些数据，
+     * 从而计算出一个高度并缓存，当第二次再刷新数据时带有这些数据，就不会再去计算新的高度了，导致问题。
+     */
     var multiTypeItemComputeCache: MutableMap<GXTemplateEngine.GXTemplateItem, Layout>? =
         null
 
@@ -82,6 +89,11 @@ class GXNode {
     lateinit var stretchNode: GXStretchNode
 
     /**
+     * 父节点
+     */
+    var parentNode: GXNode? = null
+
+    /**
      * 子节点
      */
     var children: MutableList<GXNode>? = null
@@ -117,6 +129,7 @@ class GXNode {
             it.release()
         }
         children?.clear()
+        parentNode = null
     }
 
     fun getType() = templateNode.getNodeType()
@@ -175,6 +188,14 @@ class GXNode {
     fun initEventByRegisterCenter() {
         if (event == null) {
             event = GXRegisterCenter.instance.extensionNodeEvent?.create()
+        }
+    }
+
+    fun resetTree(gxTemplateContext: GXTemplateContext) {
+        templateNode.reset()
+        stretchNode.reset(gxTemplateContext, this.templateNode)
+        children?.forEach {
+            it.resetTree(gxTemplateContext)
         }
     }
 }

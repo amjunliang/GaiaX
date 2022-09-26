@@ -23,7 +23,7 @@ import com.alibaba.gaiax.context.GXTemplateContext
  */
 interface GXIRootView {
 
-    fun setTemplateContext(gxContext: GXTemplateContext)
+    fun setTemplateContext(gxContext: GXTemplateContext?)
 
     fun getTemplateContext(): GXTemplateContext?
 }

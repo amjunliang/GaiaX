@@ -149,7 +149,22 @@
     
 }
 
-//处理扩展属性
+
+#pragma mark - 计算Size
+
+- (void)calculateWithData:(NSDictionary *)data{
+    //用于计算 & 避免走到父类计算
+    if ([GXUtils isValidDictionary:data]) {
+        NSDictionary *extend = [data gx_dictionaryForKey:@"extend"];
+        if (extend.count) {
+            [self handleExtend:extend isCalculate:YES];
+        }
+    }
+}
+
+
+#pragma mark - 处理扩展属性
+
 - (void)handleExtend:(NSDictionary *)extend isCalculate:(BOOL)isCalculate{
     //更新布局属性
     BOOL isMark = [self updateLayoutStyle:extend];
@@ -230,9 +245,9 @@
             //图片url
             GXWeakSelf(self)
             GXWeakSelf(imgView)
-            [imgView gx_setImageWithURL:[NSURL URLWithString:imgData]
-                       placeholderImage:placeholderImage
-                              completed:^(UIImage * _Nullable image, NSError * _Nullable error, NSURL * _Nullable imageURL) {
+            [imgView gx_setImageWithURLString:imgData
+                             placeholderImage:placeholderImage
+                                    completed:^(UIImage * _Nullable image, NSError * _Nullable error, NSURL * _Nullable imageURL) {
                 //加载完成回调
                 GXStrongSelf(self)
                 if (image && self.modeType.length) {
@@ -265,19 +280,6 @@
         
     }
     
-}
-
-
-#pragma mark - 计算Size
-
-- (void)calculateWithData:(NSDictionary *)data{
-    //用于计算 & 避免走到父类计算
-    if ([GXUtils isValidDictionary:data]) {
-        NSDictionary *extend = [data gx_dictionaryForKey:@"extend"];
-        if (extend.count) {
-            [self handleExtend:extend isCalculate:YES];
-        }
-    }
 }
 
 

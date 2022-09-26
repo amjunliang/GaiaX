@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name=".BusinessActivity"
-            android:exported="false" />
-        <activity
             android:name=".RemoteDataSourceTemplateActivity"
             android:exported="false" />
         <activity
             android:name=".EventTemplateActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TrackTemplateActivity"
             android:exported="true" />
         <activity
             android:name=".DataTemplateActivity"

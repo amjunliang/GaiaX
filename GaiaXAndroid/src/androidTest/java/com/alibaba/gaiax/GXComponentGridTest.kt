@@ -24,6 +24,122 @@ import org.junit.runner.RunWith
 class GXComponentGridTest : GXBaseTest() {
 
     @Test
+    fun template_grid_dynamic_column_and_padding() {
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "grid",
+            "template_grid_dynamic_column_and_padding"
+        )
+
+        val size = GXTemplateEngine.GXMeasureSize(375F.dpToPx(), null)
+
+        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
+
+        GXTemplateEngine.instance.bindData(
+            rootView,
+            GXTemplateEngine.GXTemplateData(JSONObject().apply {
+                this["column"] = 0
+                this["isEdge"] = true
+                this["nodes"] = JSONArray().apply {
+                    this.add(JSONObject())
+                }
+            })
+        )
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(375F.dpToPx(), rootView.width())
+
+        Assert.assertEquals((375F.dpToPx()), rootView.child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(0F.dpToPx(), rootView.child(0).x)
+        Assert.assertEquals(0F.dpToPx(), rootView.child(0).y)
+
+        GXTemplateEngine.instance.bindData(
+            rootView,
+            GXTemplateEngine.GXTemplateData(JSONObject().apply {
+                this["column"] = 0
+                this["isEdge"] = false
+                this["nodes"] = JSONArray().apply {
+                    this.add(JSONObject())
+                }
+            })
+        )
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(375F.dpToPx(), rootView.width())
+
+        Assert.assertEquals((375F.dpToPx() - 32F.dpToPx() * 2), rootView.child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+        Assert.assertEquals(32F.dpToPx(), rootView.child(0).x)
+        Assert.assertEquals(0F.dpToPx(), rootView.child(0).y)
+    }
+
+    @Test
+    fun template_grid_one_column_padding_left_and_right() {
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "grid",
+            "template_grid_one_column_padding_left_and_right"
+        )
+
+        val templateData = GXTemplateEngine.GXTemplateData(JSONObject().apply {
+            this["nodes"] = JSONArray().apply {
+                this.add(JSONObject())
+            }
+        })
+
+        val size = GXTemplateEngine.GXMeasureSize(375F.dpToPx(), null)
+
+        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
+
+        GXTemplateEngine.instance.bindData(rootView, templateData)
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(375F.dpToPx(), rootView.width())
+
+        Assert.assertEquals((375F.dpToPx() - 32F.dpToPx() * 2), rootView.child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+
+        Assert.assertEquals(32F.dpToPx(), rootView.child(0).x)
+        Assert.assertEquals(0F.dpToPx(), rootView.child(0).y)
+    }
+
+    @Test
+    fun template_grid_one_column_padding_left_and_right_multi_data() {
+        val templateItem = GXTemplateEngine.GXTemplateItem(
+            GXMockUtils.context,
+            "grid",
+            "template_grid_one_column_padding_left_and_right"
+        )
+
+        val templateData = GXTemplateEngine.GXTemplateData(JSONObject().apply {
+            this["nodes"] = JSONArray().apply {
+                this.add(JSONObject())
+                this.add(JSONObject())
+            }
+        })
+
+        val size = GXTemplateEngine.GXMeasureSize(375F.dpToPx(), null)
+
+        val rootView = GXTemplateEngine.instance.createView(templateItem, size)
+
+        GXTemplateEngine.instance.bindData(rootView, templateData)
+
+        rootView.executeRecyclerView()
+
+        Assert.assertEquals(375F.dpToPx(), rootView.width())
+
+        Assert.assertEquals((375F.dpToPx() - 32F.dpToPx() * 2), rootView.child(0).width())
+        Assert.assertEquals(100F.dpToPx(), rootView.child(0).height())
+
+        Assert.assertEquals(32F.dpToPx(), rootView.child(0).x)
+        Assert.assertEquals(0F.dpToPx(), rootView.child(0).y)
+    }
+
+    @Test
     fun template_grid_single_line_same_height() {
         val templateItem = GXTemplateEngine.GXTemplateItem(
             GXMockUtils.context,

@@ -20,7 +20,6 @@ import android.content.Context
 import android.view.View
 import com.alibaba.gaiax.GXTemplateEngine
 import com.alibaba.gaiax.render.node.GXNode
-import com.alibaba.gaiax.render.node.GXStretchNode
 import com.alibaba.gaiax.render.node.GXTemplateNode
 import com.alibaba.gaiax.render.node.text.GXDirtyText
 import com.alibaba.gaiax.render.view.GXIRootView
@@ -56,7 +55,11 @@ class GXTemplateContext private constructor(
     var visualTemplateNode: GXTemplateNode? = null
 ) {
 
-    var dirtyText: MutableMap<GXStretchNode, GXDirtyText>? = null
+    var isAppear: Boolean = false
+
+    var manualTrackMap: MutableMap<String, GXTemplateEngine.GXTrack>? = null
+
+    var dirtyTexts: MutableSet<GXDirtyText>? = null
 
     /**
      * Is dirty
@@ -78,7 +81,9 @@ class GXTemplateContext private constructor(
      */
     var rootNode: GXNode? = null
 
-
+    /**
+     * Template Data
+     */
     var templateData: GXTemplateEngine.GXTemplateData? = null
 
     /**
@@ -97,13 +102,19 @@ class GXTemplateContext private constructor(
     fun release() {
         containers.clear()
         isDirty = false
-        dirtyText?.clear()
-        dirtyText = null
+        dirtyTexts?.clear()
+        dirtyTexts = null
         templateData = null
         rootView = null
         visualTemplateNode = null
         rootNode?.release()
         rootNode = null
+    }
+
+    fun manualExposure() {
+        manualTrackMap?.forEach {
+            templateData?.trackListener?.onManualExposureTrackEvent(it.value)
+        }
     }
 
     companion object {
@@ -128,6 +139,12 @@ class GXTemplateContext private constructor(
                 return targetView.getTemplateContext()
             }
             return null
+        }
+
+        fun setContext(targetView: View?) {
+            if (targetView is GXIRootView) {
+                targetView.setTemplateContext(null)
+            }
         }
     }
 }

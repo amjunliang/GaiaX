@@ -50,20 +50,25 @@ fun View.setRoundCornerRadiusAndRoundCornerBorder(style: GXStyle?) {
     val borderColor = style?.borderColor?.value(this.context)
     var cornerRadius = style?.borderRadius?.value
 
+    // 2022/06/21
     // Fix a ui bug,
     // if we set corner radius and border radius in the same time, it will produce some defects at the view corner.
     // we need make a special process in order fix the defects.
-    if (cornerRadius != null && cornerRadius.size == 8 &&
-        borderRadius != null && borderWidth != null && borderColor != null
-    ) {
-        val tl = cornerRadius[0]
-        val tr = cornerRadius[2]
-        val bl = cornerRadius[4]
-        val br = cornerRadius[6]
-        if (tl == tr && tr == bl && bl == br) {
-            cornerRadius = FloatArray(8) { tl + 1F.dpToPx() }
-        }
-    }
+
+    // 2022/09/13
+    // Fix a ui  bug
+    // Remove logic of radius increase because it will cause corner dim
+//    if (cornerRadius != null && cornerRadius.size == 8 &&
+//        borderRadius != null && borderWidth != null && borderColor != null
+//    ) {
+//        val tl = cornerRadius[0]
+//        val tr = cornerRadius[2]
+//        val bl = cornerRadius[4]
+//        val br = cornerRadius[6]
+//        if (tl == tr && tr == bl && bl == br) {
+//            cornerRadius = FloatArray(8) { tl + 1F.dpToPx() }
+//        }
+//    }
 
     if (this is GXIRoundCorner) {
         if (this is GXView) {
@@ -140,21 +145,26 @@ fun View.setOpacity(opacity: Float?) {
  * @suppress
  */
 fun View.setOverflow(overflow: Boolean?) {
-    overflow?.let {
-        val view = this
-        // 当前逻辑是为了保证双端的逻辑和效果一致性
-        if (view is ViewGroup) {
+    // 20220823调整overflow的默认值为true
+    val targetOverflow = overflow ?: true
+    val view = this
+    // 当前逻辑是为了保证双端的逻辑和效果一致性
+    if (view is ViewGroup) {
+        if (!targetOverflow) {
             view.clipChildren = false
             view.post {
 
                 // 给父节点设置属性
-                (view.parent as? ViewGroup)?.clipChildren = overflow
+                val viewGroup = view.parent as? ViewGroup
+                viewGroup?.clipChildren = targetOverflow
 
                 // 特殊处理，如果是根节点，并且节点中包含阴影，那么需要递归父层级才能保证阴影设定成功
                 if (view is GXIRootView && isContainShadowLayout(view)) {
-                    overflowOnParents(view, overflow)
+                    overflowOnParents(view, targetOverflow)
                 }
             }
+        } else {
+            view.clipChildren = targetOverflow
         }
     }
 }
@@ -164,7 +174,7 @@ private fun overflowOnParents(v: View, overflow: Boolean) {
     if (viewParent is ViewGroup) {
         viewParent.clipChildren = overflow
     }
-    if (viewParent is View) {
+    if (viewParent is View && viewParent !is RecyclerView) {
         overflowOnParents(viewParent as View, overflow)
     }
 }
@@ -177,7 +187,6 @@ private fun isContainShadowLayout(view: ViewGroup): Boolean {
     }
     return false
 }
-
 
 /**
  * @suppress
@@ -402,16 +411,17 @@ fun View.setGridContainerDirection(
                 ?: false
         if (this.layoutManager == null || needForceRefresh) {
             this.layoutManager = null
-            val target = object : GridLayoutManager(this.context, column, direction, false) {
-                override fun canScrollHorizontally(): Boolean {
-                    // TODO: Grid横向处理不支持，此种情况暂时不做处理，很少见
-                    return false
-                }
+            val target =
+                object : GridLayoutManager(this.context, column, direction, false) {
+                    override fun canScrollHorizontally(): Boolean {
+                        // TODO: Grid横向处理不支持，此种情况暂时不做处理，很少见
+                        return false
+                    }
 
-                override fun canScrollVertically(): Boolean {
-                    return direction == LinearLayoutManager.VERTICAL && scrollEnable
+                    override fun canScrollVertically(): Boolean {
+                        return direction == LinearLayoutManager.VERTICAL && scrollEnable
+                    }
                 }
-            }
             this.layoutManager = target
         } else {
             (this.layoutManager as GridLayoutManager).spanCount = column
@@ -458,7 +468,7 @@ fun View.setGridContainerItemSpacingAndRowSpacing(
 ) {
     if (this is RecyclerView) {
         if (this.itemDecorationCount > 0) {
-            return
+            this.removeItemDecorationAt(0)
         }
         val decoration = object : RecyclerView.ItemDecoration() {
 
@@ -519,8 +529,8 @@ fun View.setGridContainerItemSpacingAndRowSpacing(
                 val left: Float
                 val right: Float
 
-                val totalSpace: Float =
-                    itemSpacing * (spanCount - 1) + (padding.left.toFloat() + padding.right.toFloat()) // 总共的padding值
+                val totalSpace: Float = itemSpacing * (spanCount - 1) +
+                        (padding.left.toFloat() + padding.right.toFloat()) // 总共的padding值
                 val eachSpace = totalSpace / spanCount // 分配给每个item的padding值
                 val column = childPosition % spanCount // 列数
 
@@ -531,9 +541,14 @@ fun View.setGridContainerItemSpacingAndRowSpacing(
                     left = column * eachSpace / (spanCount - 1)
                     right = eachSpace - left
                 } else {
-                    left =
-                        column * (eachSpace - padding.left - padding.right) / (spanCount - 1) + (padding.left + padding.right) / 2
-                    right = eachSpace - left
+                    if (spanCount == 1) {
+                        left = padding.left.toFloat()
+                        right = padding.right.toFloat()
+                    } else {
+                        left = column * (eachSpace - padding.left - padding.right) /
+                                (spanCount - 1) + (padding.left + padding.right) / 2
+                        right = eachSpace - left
+                    }
                 }
 
                 outRect.left = left.toInt()
@@ -598,9 +613,14 @@ fun View.setGridContainerItemSpacingAndRowSpacing(
                                 bottom = padding.bottom.toFloat()
                             }
                         }
-                        left =
-                            column * (eachSpace - padding.left - padding.right) / (spanCount - 1) + (padding.left + padding.right) / 2
-                        right = eachSpace - left
+                        if (spanCount == 1) {
+                            left = padding.left.toFloat()
+                            right = padding.right.toFloat()
+                        } else {
+                            left =
+                                column * (eachSpace - padding.left - padding.right) / (spanCount - 1) + (padding.left + padding.right) / 2
+                            right = eachSpace - left
+                        }
                     }
                 } else {
                     val totalSpace: Float =

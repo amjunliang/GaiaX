@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">GaiaXDemo</string>
     <string name="fastpreview">Fast Preview</string>
+    <string name="fastpreview_emulator">Fast Preview Emulator</string>
     <string name="normal_template">Normal Template</string>
     <string name="nest_template">Nest Template</string>
     <string name="container_template">Container Template</string>
     <string name="data">Data Binding</string>
     <string name="event">Event Binding</string>
+    <string name="track">Track Binding</string>
     <string name="remote_data_source">Remote Data Source</string>
     <string name="business">Business</string>
 </resources>

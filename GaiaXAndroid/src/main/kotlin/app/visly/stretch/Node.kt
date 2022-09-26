@@ -159,5 +159,10 @@ open class Node {
         return "Node(id='$id', style=$style, children=$children)"
     }
 
-
+    fun markDirtyAll() {
+        markDirty()
+        children.forEach {
+            it.markDirtyAll()
+        }
+    }
 }

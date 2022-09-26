@@ -55,11 +55,9 @@ open class GXView : AbsoluteLayout,
         defStyleAttr
     )
 
-    private var overflow: Boolean = false
-
     private var gxTemplateContext: GXTemplateContext? = null
 
-    override fun setTemplateContext(gxContext: GXTemplateContext) {
+    override fun setTemplateContext(gxContext: GXTemplateContext?) {
         this.gxTemplateContext = gxContext
     }
 

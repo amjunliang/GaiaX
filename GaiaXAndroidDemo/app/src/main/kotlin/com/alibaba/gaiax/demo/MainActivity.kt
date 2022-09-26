@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.alibaba.gaiax.GXRegisterCenter
 import com.alibaba.gaiax.GXTemplateEngine
+import com.alibaba.gaiax.adapter.GXExtensionExpression
+import com.alibaba.gaiax.demo.utils.GXExtensionYouKuExpression
 import com.alibaba.gaiax.fastpreview.GaiaXFastPreviewActivity
 import com.alibaba.gaiax.fastpreview.GaiaXQRCodeActivity
 
@@ -47,6 +49,18 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(MainActivity@ this, GaiaXQRCodeActivity::class.java)
             launcher.launch(intent)
         }
+
+        findViewById<AppCompatButton>(R.id.fastpreview_emulator)?.setOnClickListener {
+            val intent = Intent(MainActivity@ this, GaiaXFastPreviewActivity::class.java)
+            // 9001
+            // 9292
+            intent.putExtra(
+                "GAIA_STUDIO_URL",
+                "gaiax://gaiax/preview?url=ws://30.78.147.17:9292&id=test-template&type=auto"
+            )
+            launcher.launch(intent)
+        }
+
         findViewById<AppCompatButton>(R.id.normal_template)?.setOnClickListener {
             val intent = Intent(MainActivity@ this, NormalTemplateActivity::class.java)
             startActivity(intent)
@@ -72,14 +86,24 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        findViewById<AppCompatButton>(R.id.track)?.setOnClickListener {
+            val intent = Intent(MainActivity@ this, TrackTemplateActivity::class.java)
+            startActivity(intent)
+        }
+
         findViewById<AppCompatButton>(R.id.remote)?.setOnClickListener {
             val intent = Intent(MainActivity@ this, RemoteDataSourceTemplateActivity::class.java)
             startActivity(intent)
         }
 
-        findViewById<AppCompatButton>(R.id.business)?.setOnClickListener {
-            val intent = Intent(MainActivity@ this, BusinessActivity::class.java)
-            startActivity(intent)
+        findViewById<AppCompatButton>(R.id.youku_expression)?.setOnClickListener {
+            GXRegisterCenter.instance
+                .registerExtensionExpression(GXExtensionYouKuExpression())
+        }
+
+        findViewById<AppCompatButton>(R.id.opensource_expression)?.setOnClickListener {
+            GXRegisterCenter.instance
+                .registerExtensionExpression(GXExtensionExpression())
         }
     }
 }

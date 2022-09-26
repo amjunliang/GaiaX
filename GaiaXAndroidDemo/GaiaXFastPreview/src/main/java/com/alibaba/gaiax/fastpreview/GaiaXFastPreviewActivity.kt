@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.fastjson.JSONObject
+import com.alibaba.gaiax.GXRegisterCenter
 import com.alibaba.gaiax.GXTemplateEngine
+import com.alibaba.gaiax.template.GXSize.Companion.dpToPx
 import com.alibaba.gaiax.utils.GXScreenUtils
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
@@ -30,6 +32,13 @@ class GaiaXFastPreviewActivity : AppCompatActivity(), GaiaXFastPreview.Listener 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gaiax_fast_preview_activity)
+        GXRegisterCenter.instance.registerExtensionException(object :
+            GXRegisterCenter.GXIExtensionException {
+            override fun exception(exception: Exception) {
+                exception.printStackTrace()
+            }
+
+        })
         fastPreviewRoot = findViewById<ViewGroup>(R.id.fast_preview_layout)
         val url = intent.getStringExtra("GAIA_STUDIO_URL")
         val params = getParams(url)
@@ -118,12 +127,12 @@ class GaiaXFastPreviewActivity : AppCompatActivity(), GaiaXFastPreview.Listener 
         val activity = this
 
         val width = if (constraintSize.containsKey("width")) {
-            constraintSize.getFloat("width")
+            constraintSize.getFloat("width").dpToPx()
         } else {
             GXScreenUtils.getScreenWidthPx(this)
         }
         val height = if (constraintSize.containsKey("height")) {
-            constraintSize.getFloat("height")
+            constraintSize.getFloat("height").dpToPx()
         } else {
             null
         }
